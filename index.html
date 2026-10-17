@@ -1,1752 +1,562 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>RIDEZY 🚗</title>
-
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
-
-body {
-    background: #f7f8fa;
-    color: #111;
-    min-height: 100vh;
-}
-
-/* ================= HEADER ================= */
-
-header {
-    height: 75px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 7%;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 30px;
-    font-weight: 900;
-    letter-spacing: -1px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.logo-car {
-    font-size: 34px;
-}
-
-.logo-black {
-    color: #111;
-}
-
-.logo-orange {
-    color: #ff7a00;
-    display: inline-block;
-    animation: shake 1.5s infinite;
-}
-
-@keyframes shake {
-    0%, 80%, 100% {
-        transform: rotate(0deg);
-    }
-    84% {
-        transform: rotate(-8deg);
-    }
-    88% {
-        transform: rotate(8deg);
-    }
-    92% {
-        transform: rotate(-5deg);
-    }
-    96% {
-        transform: rotate(5deg);
-    }
-}
-
-.nav {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-}
-
-.nav span {
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.sos-top {
-    background: #ff3b30;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 22px;
-}
-
-/* ================= HERO ================= */
-
-.hero {
-    background: linear-gradient(135deg, #111 0%, #191919 55%, #272727 100%);
-    color: white;
-    min-height: 420px;
-    padding: 60px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-}
-
-.hero-text {
-    max-width: 600px;
-}
-
-.hero h1 {
-    font-size: clamp(40px, 6vw, 72px);
-    line-height: 1;
-    margin-bottom: 20px;
-}
-
-.hero h1 span {
-    color: #ff7a00;
-}
-
-.hero p {
-    color: #cfcfcf;
-    font-size: 18px;
-    line-height: 1.6;
-}
-
-.hero-car {
-    font-size: 150px;
-    animation: drive 4s infinite ease-in-out;
-}
-
-@keyframes drive {
-    0% {
-        transform: translateX(30px);
-    }
-    50% {
-        transform: translateX(-30px);
-    }
-    100% {
-        transform: translateX(30px);
-    }
-}
-
-/* ================= BOOKING ================= */
-
-.booking-wrapper {
-    width: 86%;
-    max-width: 1100px;
-    margin: -70px auto 40px;
-    position: relative;
-    z-index: 10;
-}
-
-.booking-card {
-    background: white;
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0 15px 45px rgba(0,0,0,.15);
-}
-
-.booking-title {
-    font-size: 24px;
-    font-weight: 800;
-    margin-bottom: 20px;
-}
-
-.inputs {
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 15px;
-}
-
-.input-box {
-    position: relative;
-}
-
-.input-box label {
-    display: block;
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 7px;
-    font-weight: 600;
-}
-
-.input-box input {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 13px;
-    font-size: 16px;
-    outline: none;
-    transition: .2s;
-}
-
-.input-box input:focus {
-    border-color: #ff7a00;
-    box-shadow: 0 0 0 3px rgba(255,122,0,.1);
-}
-
-.search-btn {
-    align-self: end;
-    padding: 16px 25px;
-    background: #ff7a00;
-    border: none;
-    border-radius: 13px;
-    color: white;
-    font-weight: 800;
-    font-size: 16px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.search-btn:hover {
-    background: #e96800;
-    transform: translateY(-2px);
-}
-
-/* ================= LOCATION SUGGESTIONS ================= */
-
-.suggestions {
-    position: absolute;
-    background: white;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    margin-top: 5px;
-    overflow: hidden;
-    z-index: 50;
-    box-shadow: 0 8px 25px rgba(0,0,0,.1);
-}
-
-.suggestion {
-    padding: 13px 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-}
-
-.suggestion:hover {
-    background: #fff4ea;
-}
-
-/* ================= POPULAR ================= */
-
-.popular {
-    width: 86%;
-    max-width: 1100px;
-    margin: 30px auto;
-}
-
-.section-title {
-    font-size: 27px;
-    margin-bottom: 20px;
-}
-
-.place-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
-
-.place {
-    background: white;
-    border-radius: 18px;
-    padding: 20px;
-    cursor: pointer;
-    border: 1px solid #eee;
-    transition: .2s;
-}
-
-.place:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-}
-
-.place-icon {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-.place b {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.place small {
-    color: #777;
-}
-
-/* ================= RESULTS ================= */
-
-.results {
-    width: 86%;
-    max-width: 1100px;
-    margin: 40px auto;
-    display: none;
-}
-
-.results h2 {
-    margin-bottom: 20px;
-}
-
-.route-info {
-    background: #111;
-    color: white;
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 25px;
-}
-
-.route-info strong {
-    color: #ff7a00;
-}
-
-.route-line {
-    margin-top: 10px;
-    color: #ddd;
-}
-
-/* ================= RIDES ================= */
-
-.rides {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-}
-
-.ride {
-    background: white;
-    padding: 22px;
-    border-radius: 20px;
-    border: 1px solid #eee;
-    cursor: pointer;
-    transition: .25s;
-    position: relative;
-}
-
-.ride:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,.1);
-}
-
-.ride-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.ride-name {
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.ride-icon {
-    font-size: 42px;
-}
-
-.ride-details {
-    color: #666;
-    margin: 12px 0;
-}
-
-.price {
-    font-size: 22px;
-    font-weight: 900;
-}
-
-.select-btn {
-    margin-top: 15px;
-    width: 100%;
-    padding: 12px;
-    background: #111;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* ================= LOADING ================= */
-
-.loading {
-    display: none;
-    text-align: center;
-    padding: 30px;
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #ddd;
-    border-top-color: #ff7a00;
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-    margin: auto auto 15px;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ================= MODAL ================= */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.65);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal-content {
-    background: white;
-    width: 100%;
-    max-width: 550px;
-    border-radius: 25px;
-    padding: 30px;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.modal.dark .modal-content {
-    background: #171717;
-    color: white;
-}
-
-.close {
-    float: right;
-    font-size: 27px;
-    cursor: pointer;
-}
-
-.driver {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 25px 0;
-    padding: 15px;
-    border-radius: 15px;
-    background: #f5f5f5;
-}
-
-.dark .driver {
-    background: #262626;
-}
-
-.driver-photo {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #ff7a00;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-}
-
-.driver-info b {
-    display: block;
-    font-size: 18px;
-}
-
-.rating {
-    color: #ff7a00;
-}
-
-.action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.action {
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.chat {
-    background: #111;
-    color: white;
-}
-
-.leave {
-    background: #eee;
-}
-
-.sos {
-    background: #ff3b30;
-    color: white;
-}
-
-.feedback {
-    background: #ff7a00;
-    color: white;
-}
-
-/* ================= CHAT ================= */
-
-.chat-box {
-    display: none;
-    margin-top: 20px;
-}
-
-.messages {
-    height: 180px;
-    overflow-y: auto;
-    background: #f5f5f5;
-    border-radius: 15px;
-    padding: 15px;
-}
-
-.message {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    width: fit-content;
-}
-
-.chat-input {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
-
-.chat-input button {
-    background: #ff7a00;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-}
-
-/* ================= FEEDBACK ================= */
-
-.stars {
-    font-size: 35px;
-    margin: 20px 0;
-}
-
-.star {
-    cursor: pointer;
-    color: #ccc;
-}
-
-.star.active {
-    color: #ff7a00;
-}
-
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    resize: none;
-}
-
-/* ================= FOOTER ================= */
-
-footer {
-    background: #111;
-    color: white;
-    padding: 40px 7%;
-    margin-top: 70px;
-    text-align: center;
-}
-
-footer span {
-    color: #ff7a00;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:800px) {
-
-    .nav {
-        display: none;
-    }
-
-    .hero {
-        padding: 45px 7%;
-    }
-
-    .hero-car {
-        display: none;
-    }
-
-    .inputs {
-        grid-template-columns: 1fr;
-    }
-
-    .search-btn {
-        width: 100%;
-    }
-
-    .place-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .rides {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width:500px) {
-
-    .booking-wrapper,
-    .popular,
-    .results {
-        width: 92%;
-    }
-
-    .booking-card {
-        padding: 20px;
-    }
-
-    .place-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .hero h1 {
-        font-size: 42px;
-    }
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Arial,sans-serif}
+body{background:#f7f8fa;color:#111;min-height:100vh}
+header{height:75px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 7%;border-bottom:1px solid #eee;position:sticky;top:0;z-index:100}
+.logo{font-size:30px;font-weight:900;letter-spacing:-1px;display:flex;align-items:center;gap:5px}
+.logo-car{font-size:34px}.logo-orange{color:#ff7a00;animation:shake 1.5s infinite}
+@keyframes shake{0%,80%,100%{transform:rotate(0)}84%{transform:rotate(-8deg)}88%{transform:rotate(8deg)}92%{transform:rotate(-5deg)}96%{transform:rotate(5deg)}}
+.nav{display:flex;gap:28px;align-items:center}.nav span{cursor:pointer;font-weight:600}
+.sos-top{background:#ff3b30;color:#fff;padding:10px 18px;border-radius:22px}
+.hero{background:linear-gradient(135deg,#111,#272727);color:#fff;min-height:420px;padding:60px 7%;display:flex;justify-content:space-between;align-items:center}
+.hero-text{max-width:600px}.hero h1{font-size:clamp(40px,6vw,72px);line-height:1;margin-bottom:20px}
+.hero h1 span{color:#ff7a00}.hero p{color:#cfcfcf;font-size:18px;line-height:1.6}
+.hero-car{font-size:150px;animation:drive 4s infinite ease-in-out}
+@keyframes drive{0%,100%{transform:translateX(30px)}50%{transform:translateX(-30px)}}
+.booking-wrapper{width:86%;max-width:1100px;margin:-70px auto 40px;position:relative;z-index:10}
+.booking-card{background:#fff;padding:30px;border-radius:25px;box-shadow:0 15px 45px #0002}
+.booking-title{font-size:24px;font-weight:800;margin-bottom:20px}
+.inputs{display:grid;grid-template-columns:1fr 1fr auto;gap:15px}
+.input-box{position:relative}.input-box label{display:block;font-size:13px;color:#777;margin-bottom:7px;font-weight:600}
+.input-box input{width:100%;padding:16px;border:1px solid #ddd;border-radius:13px;font-size:16px;outline:none}
+.input-box input:focus{border-color:#ff7a00;box-shadow:0 0 0 3px #ff7a001a}
+.search-btn{align-self:end;padding:16px 25px;background:#ff7a00;border:none;border-radius:13px;color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+.search-btn:hover{background:#e96800}
+.suggestions{position:absolute;background:#fff;width:100%;border:1px solid #ddd;border-radius:12px;margin-top:5px;overflow:hidden;z-index:50;box-shadow:0 8px 25px #0001;max-height:260px;overflow-y:auto}
+.suggestion{padding:13px 15px;cursor:pointer;border-bottom:1px solid #eee;font-size:13px}.suggestion:hover{background:#fff4ea}
+.route-error{margin-top:14px;padding:12px 15px;border:1px solid #fecaca;border-radius:12px;background:#fef2f2;color:#b91c1c;font-size:14px;line-height:1.5}
+.route-error[hidden]{display:none}
+.popular{width:86%;max-width:1100px;margin:30px auto}.section-title{font-size:27px;margin-bottom:20px}
+.place-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.place{background:#fff;border-radius:18px;padding:20px;cursor:pointer;border:1px solid #eee;transition:.2s}
+.place:hover{transform:translateY(-5px);box-shadow:0 10px 25px #0001}
+.place-icon{font-size:30px;margin-bottom:10px}.place b{display:block;margin-bottom:5px}.place small{color:#777}
+.results{width:86%;max-width:1100px;margin:40px auto;display:none}
+.results h2{margin-bottom:20px}.route-info{background:#111;color:#fff;border-radius:20px;padding:25px;margin-bottom:25px}
+.route-info strong{color:#ff7a00}.route-line{margin-top:10px;color:#ddd}
+.rides{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.ride{background:#fff;padding:22px;border-radius:20px;border:1px solid #eee;cursor:pointer;transition:.25s}
+.ride:hover{transform:translateY(-5px);box-shadow:0 12px 30px #0001}
+.ride-header{display:flex;align-items:center;justify-content:space-between}.ride-name{font-size:20px;font-weight:800}
+.ride-icon{font-size:42px}.ride-details{color:#666;margin:12px 0}.price{font-size:22px;font-weight:900}
+.select-btn{margin-top:15px;width:100%;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:bold}
+.loading{display:none;text-align:center;padding:30px}.spinner{width:40px;height:40px;border:4px solid #ddd;border-top-color:#ff7a00;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 15px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.modal{display:none;position:fixed;inset:0;background:#000a;z-index:500;align-items:center;justify-content:center;padding:20px}
+.modal-content{background:#fff;width:100%;max-width:550px;border-radius:25px;padding:30px;max-height:90vh;overflow-y:auto}
+.close{float:right;font-size:27px;cursor:pointer}
+.fare-breakdown{margin:18px 0;padding:16px;border:1px solid #eee;border-radius:15px;background:#fffaf5}
+.fare-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;color:#444;font-size:14px}
+.fare-total{margin-top:6px;padding-top:13px;border-top:1px solid #e5e5e5;color:#111;font-size:17px;font-weight:800}
+.fare-note{margin-top:10px;color:#777;font-size:12px;line-height:1.5}
+.driver{display:flex;align-items:center;gap:15px;margin:25px 0;padding:15px;border-radius:15px;background:#f5f5f5}
+.driver-photo{width:60px;height:60px;border-radius:50%;background:#ff7a00;display:flex;align-items:center;justify-content:center;font-size:30px}
+.driver-info b{display:block;font-size:18px}.rating{color:#ff7a00}
+.action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.action{padding:14px;border:none;border-radius:12px;cursor:pointer;font-weight:bold}
+.chat{background:#111;color:#fff}.leave{background:#eee}.sos{background:#ff3b30;color:#fff}.feedback{background:#ff7a00;color:#fff}
+.chat-box{display:none;margin-top:20px}.messages{height:180px;overflow-y:auto;background:#f5f5f5;border-radius:15px;padding:15px}
+.message{background:#fff;padding:10px;border-radius:10px;margin-bottom:8px;width:fit-content;max-width:100%;overflow-wrap:anywhere}
+.chat-input{display:flex;gap:8px;margin-top:10px}.chat-input input{flex:1;min-width:0;padding:12px;border:1px solid #ddd;border-radius:10px}
+.chat-input button{background:#ff7a00;color:#fff;border:none;border-radius:10px;padding:12px 18px;cursor:pointer}
+.stars{font-size:35px;margin:20px 0}.star{cursor:pointer;color:#ccc}.star.active{color:#ff7a00}
+textarea{width:100%;height:100px;padding:15px;border:1px solid #ddd;border-radius:12px;resize:vertical}
+footer{background:#111;color:#fff;padding:40px 7%;margin-top:70px;text-align:center}
+footer span{color:#ff7a00}
+@media(max-width:800px){
+.nav{display:none}.hero{padding:45px 7%}.hero-car{display:none}
+.inputs{grid-template-columns:1fr}.search-btn{width:100%}
+.place-grid{grid-template-columns:repeat(2,1fr)}.rides{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+.booking-wrapper,.popular,.results{width:92%}.booking-card{padding:20px}
+.hero h1{font-size:42px}.modal-content{padding:22px}
 }
 </style>
 </head>
-
 <body>
-
 <header>
-
-    <div class="logo">
-        <span class="logo-car">🚗</span>
-        <span class="logo-black">RIDE</span><span class="logo-orange">ZY</span>
-    </div>
-
-    <div class="nav">
-        <span>Home</span>
-        <span onclick="scrollToRides()">My Rides</span>
-        <span onclick="openFeedback()">Feedback</span>
-        <span class="sos-top" onclick="SOS()">SOS</span>
-    </div>
-
+  <div class="logo"><span class="logo-car">🚗</span><span>RIDE</span><span class="logo-orange">ZY</span></div>
+  <div class="nav">
+    <span onclick="window.scrollTo({top:0,behavior:'smooth'})">Home</span>
+    <span onclick="scrollToRides()">My Rides</span>
+    <span onclick="openFeedback()">Feedback</span>
+    <span class="sos-top" onclick="SOS()">SOS</span>
+  </div>
 </header>
 
-
 <section class="hero">
-
-    <div class="hero-text">
-        <h1>Move smart.<br><span>Ride easy.</span></h1>
-
-        <p>
-            Your simple, fun and reliable ride-booking experience.
-            Enter almost any location in India and find your ride.
-        </p>
-    </div>
-
-    <div class="hero-car">
-        🚗
-    </div>
-
+  <div class="hero-text">
+    <h1>Move smart.<br><span>Ride easy.</span></h1>
+    <p>Your simple, fun and reliable ride-booking experience. Enter a location in India and find your ride.</p>
+  </div>
+  <div class="hero-car">🚗</div>
 </section>
-
 
 <div class="booking-wrapper">
-
-    <div class="booking-card">
-
-        <div class="booking-title">
-            Where are you going? 📍
-        </div>
-
-        <div class="inputs">
-
-            <div class="input-box">
-
-                <label>FROM</label>
-
-                <input
-                    id="from"
-                    type="text"
-                    placeholder="e.g. Kollam"
-                    autocomplete="off"
-                >
-
-                <div id="fromSuggestions" class="suggestions"></div>
-
-            </div>
-
-
-            <div class="input-box">
-
-                <label>TO</label>
-
-                <input
-                    id="to"
-                    type="text"
-                    placeholder="e.g. Trivandrum Airport"
-                    autocomplete="off"
-                >
-
-                <div id="toSuggestions" class="suggestions"></div>
-
-            </div>
-
-            <button class="search-btn" onclick="findRide()">
-                Find Ride 🚗
-            </button>
-
-        </div>
-
+  <div class="booking-card">
+    <div class="booking-title">Where are you going? 📍</div>
+    <div class="inputs">
+      <div class="input-box">
+        <label for="from">FROM</label>
+        <input id="from" type="text" placeholder="e.g. Kollam" autocomplete="off">
+        <div id="fromSuggestions" class="suggestions"></div>
+      </div>
+      <div class="input-box">
+        <label for="to">TO</label>
+        <input id="to" type="text" placeholder="e.g. Trivandrum Airport" autocomplete="off">
+        <div id="toSuggestions" class="suggestions"></div>
+      </div>
+      <button class="search-btn" onclick="findRide()">Find Ride 🚗</button>
     </div>
-
+    <div id="routeError" class="route-error" role="alert" aria-live="polite" hidden></div>
+  </div>
 </div>
-
 
 <section class="popular">
-
-    <h2 class="section-title">Popular destinations ✨</h2>
-
-    <div class="place-grid">
-
-        <div class="place" onclick="setDestination('Chennai')">
-            <div class="place-icon">🌆</div>
-            <b>Chennai</b>
-            <small>Tamil Nadu</small>
-        </div>
-
-        <div class="place" onclick="setDestination('Bangalore')">
-            <div class="place-icon">🌇</div>
-            <b>Bangalore</b>
-            <small>Karnataka</small>
-        </div>
-
-        <div class="place" onclick="setDestination('Kochi')">
-            <div class="place-icon">🌴</div>
-            <b>Kochi</b>
-            <small>Kerala</small>
-        </div>
-
-        <div class="place" onclick="setDestination('Mumbai')">
-            <div class="place-icon">🏙️</div>
-            <b>Mumbai</b>
-            <small>Maharashtra</small>
-        </div>
-
-    </div>
-
+  <h2 class="section-title">Popular destinations ✨</h2>
+  <div class="place-grid">
+    <div class="place" onclick="setDestination('Chennai')"><div class="place-icon">🌆</div><b>Chennai</b><small>Tamil Nadu</small></div>
+    <div class="place" onclick="setDestination('Bangalore')"><div class="place-icon">🌇</div><b>Bangalore</b><small>Karnataka</small></div>
+    <div class="place" onclick="setDestination('Kochi')"><div class="place-icon">🌴</div><b>Kochi</b><small>Kerala</small></div>
+    <div class="place" onclick="setDestination('Mumbai')"><div class="place-icon">🏙️</div><b>Mumbai</b><small>Maharashtra</small></div>
+  </div>
 </section>
 
-
-<div class="loading" id="loading">
-
-    <div class="spinner"></div>
-
-    <h3>Finding your route...</h3>
-
-    <p>Calculating distance, time & fares 🚗</p>
-
+<div class="loading" id="loading" aria-live="polite">
+  <div class="spinner"></div><h3>Finding your route...</h3><p>Calculating distance, time & fares 🚗</p>
 </div>
-
 
 <section class="results" id="results">
-
-    <div class="route-info">
-
-        <h2>🗺️ Your route</h2>
-
-        <div class="route-line" id="routeText"></div>
-
-        <br>
-
-        <div>
-            Distance:
-            <strong id="distance"></strong>
-        </div>
-
-        <div>
-            Estimated travel time:
-            <strong id="duration"></strong>
-        </div>
-
+  <div class="route-info">
+    <h2>🗺️ Your route</h2>
+    <div class="route-line" id="routeText"></div><br>
+    <div>Distance: <strong id="distance"></strong></div>
+    <div>Estimated travel time: <strong id="duration"></strong></div>
+  </div>
+  <h2>Choose your ride 🚘</h2>
+  <div class="rides">
+    <div class="ride" onclick="selectRide('RIDEZY Mini')">
+      <div class="ride-header"><div><div class="ride-name">RIDEZY Mini</div><div class="ride-details">Affordable everyday ride</div></div><div class="ride-icon">🚗</div></div>
+      <div><b id="miniTime">--</b></div><div class="price" id="miniPrice">₹--</div><button class="select-btn">Choose Mini</button>
     </div>
-
-
-    <h2>Choose your ride 🚘</h2>
-
-    <div class="rides">
-
-        <div class="ride" onclick="selectRide('RIDEZY Mini')">
-
-            <div class="ride-header">
-                <div>
-                    <div class="ride-name">RIDEZY Mini</div>
-                    <div class="ride-details">
-                        Affordable everyday ride
-                    </div>
-                </div>
-
-                <div class="ride-icon">🚗</div>
-            </div>
-
-            <div>
-                <b id="miniTime">--</b>
-            </div>
-
-            <div class="price" id="miniPrice">₹--</div>
-
-            <button class="select-btn">
-                Choose Mini
-            </button>
-
-        </div>
-
-
-        <div class="ride" onclick="selectRide('RIDEZY Prime')">
-
-            <div class="ride-header">
-                <div>
-                    <div class="ride-name">RIDEZY Prime</div>
-                    <div class="ride-details">
-                        Comfortable premium ride
-                    </div>
-                </div>
-
-                <div class="ride-icon">🚙</div>
-            </div>
-
-            <div>
-                <b id="primeTime">--</b>
-            </div>
-
-            <div class="price" id="primePrice">₹--</div>
-
-            <button class="select-btn">
-                Choose Prime
-            </button>
-
-        </div>
-
-
-        <div class="ride" onclick="selectRide('RIDEZY XL')">
-
-            <div class="ride-header">
-                <div>
-                    <div class="ride-name">RIDEZY XL</div>
-                    <div class="ride-details">
-                        Big ride for groups & luggage
-                    </div>
-                </div>
-
-                <div class="ride-icon">🚐</div>
-            </div>
-
-            <div>
-                <b id="xlTime">--</b>
-            </div>
-
-            <div class="price" id="xlPrice">₹--</div>
-
-            <button class="select-btn">
-                Choose XL
-            </button>
-
-        </div>
-
-
-        <div class="ride" onclick="selectRide('RIDEZY Auto')">
-
-            <div class="ride-header">
-                <div>
-                    <div class="ride-name">RIDEZY Auto</div>
-                    <div class="ride-details">
-                        Quick & budget friendly
-                    </div>
-                </div>
-
-                <div class="ride-icon">🛺</div>
-            </div>
-
-            <div>
-                <b id="autoTime">--</b>
-            </div>
-
-            <div class="price" id="autoPrice">₹--</div>
-
-            <button class="select-btn">
-                Choose Auto
-            </button>
-
-        </div>
-
+    <div class="ride" onclick="selectRide('RIDEZY Prime')">
+      <div class="ride-header"><div><div class="ride-name">RIDEZY Prime</div><div class="ride-details">Comfortable premium ride</div></div><div class="ride-icon">🚙</div></div>
+      <div><b id="primeTime">--</b></div><div class="price" id="primePrice">₹--</div><button class="select-btn">Choose Prime</button>
     </div>
-
+    <div class="ride" onclick="selectRide('RIDEZY XL')">
+      <div class="ride-header"><div><div class="ride-name">RIDEZY XL</div><div class="ride-details">For groups and luggage</div></div><div class="ride-icon">🚐</div></div>
+      <div><b id="xlTime">--</b></div><div class="price" id="xlPrice">₹--</div><button class="select-btn">Choose XL</button>
+    </div>
+    <div class="ride" onclick="selectRide('RIDEZY Auto')">
+      <div class="ride-header"><div><div class="ride-name">RIDEZY Auto</div><div class="ride-details">Quick and budget friendly</div></div><div class="ride-icon">🛺</div></div>
+      <div><b id="autoTime">--</b></div><div class="price" id="autoPrice">₹--</div><button class="select-btn">Choose Auto</button>
+    </div>
+  </div>
 </section>
 
-
-<!-- RIDE DETAILS MODAL -->
-
 <div class="modal" id="rideModal">
-
-    <div class="modal-content">
-
-        <span class="close" onclick="closeModal()">×</span>
-
-        <h2 id="selectedRide">RIDEZY</h2>
-
-        <p style="margin-top:8px;color:#777;">
-            Your driver is on the way 🚗
-        </p>
-
-        <div class="driver">
-
-            <div class="driver-photo">👨🏻</div>
-
-            <div class="driver-info">
-                <b>Arjun Kumar</b>
-                <span class="rating">★★★★★</span>
-                <br>
-                <small>RIDEZY Verified Driver</small>
-            </div>
-
-        </div>
-
-
-        <div style="
-            background:#fff4ea;
-            padding:18px;
-            border-radius:15px;
-        ">
-
-            <b>🚗 Driver arrival</b>
-
-            <h2 id="arrivalTime" style="margin-top:7px;">
-                4 minutes
-            </h2>
-
-            <small>
-                Your driver is heading towards your pickup point.
-            </small>
-
-        </div>
-
-
-        <div class="action-buttons">
-
-            <button class="action chat" onclick="toggleChat()">
-                💬 Chat with Driver
-            </button>
-
-            <button class="action leave" onclick="leaveCar()">
-                🚪 Leave the Car
-            </button>
-
-            <button class="action sos" onclick="SOS()">
-                🆘 SOS
-            </button>
-
-            <button class="action feedback" onclick="openFeedback()">
-                ⭐ Feedback
-            </button>
-
-        </div>
-
-
-        <div class="chat-box" id="chatBox">
-
-            <h3 style="margin:15px 0;">Chat with Driver</h3>
-
-            <div class="messages" id="messages">
-
-                <div class="message">
-                    Driver: Hi! I'll be there shortly. 👋
-                </div>
-
-            </div>
-
-            <div class="chat-input">
-
-                <input
-                    id="chatInput"
-                    placeholder="Type a message..."
-                >
-
-                <button onclick="sendMessage()">
-                    Send
-                </button>
-
-            </div>
-
-        </div>
-
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2 id="selectedRide">RIDEZY</h2>
+    <div class="fare-breakdown">
+      <div class="fare-row"><span>Base fare</span><strong id="baseFareAmount">₹--</strong></div>
+      <div class="fare-row"><span>Distance charge</span><strong id="distanceFareAmount">₹--</strong></div>
+      <div class="fare-row" id="minimumFareRow" hidden><span>Minimum fare adjustment</span><strong id="minimumFareAmount">₹0</strong></div>
+      <div class="fare-row fare-total"><span>Estimated total</span><strong id="totalFareAmount">₹--</strong></div>
+      <p class="fare-note">Estimated fare only. This demo does not create a real booking.</p>
     </div>
-
+    <p style="margin-top:8px;color:#777">Your driver is on the way 🚗 <small>(simulated demo)</small></p>
+    <div class="driver">
+      <div class="driver-photo">👨🏻</div>
+      <div class="driver-info"><b>Arjun Kumar</b><span class="rating">★★★★★</span><br><small>Demo driver profile</small></div>
+    </div>
+    <div style="background:#fff4ea;padding:18px;border-radius:15px">
+      <b>🚗 Driver arrival (simulated)</b><h2 id="arrivalTime" style="margin-top:7px">4 minutes</h2>
+      <small>This demo does not track a real driver.</small>
+    </div>
+    <div class="action-buttons">
+      <button class="action chat" onclick="toggleChat()">💬 Chat with Driver</button>
+      <button class="action leave" onclick="leaveCar()">🚪 End Demo Ride</button>
+      <button class="action sos" onclick="SOS()">🆘 SOS Demo</button>
+      <button class="action feedback" onclick="openFeedback()">⭐ Feedback</button>
+    </div>
+    <div class="chat-box" id="chatBox">
+      <h3 style="margin:15px 0">Chat demo</h3>
+      <div class="messages" id="messages"><div class="message">Driver demo: Hi! I'll be there shortly. 👋</div></div>
+      <div class="chat-input"><input id="chatInput" placeholder="Type a message..." aria-label="Chat message"><button onclick="sendMessage()">Send</button></div>
+    </div>
+  </div>
 </div>
-
-
-<!-- FEEDBACK MODAL -->
 
 <div class="modal" id="feedbackModal">
-
-    <div class="modal-content">
-
-        <span class="close" onclick="closeFeedback()">×</span>
-
-        <h2>How was your RIDEZY experience? 💛</h2>
-
-        <p style="margin-top:10px;color:#777;">
-            Your feedback helps us make RIDEZY better.
-        </p>
-
-        <div class="stars">
-
-            <span class="star" onclick="rate(1)">★</span>
-            <span class="star" onclick="rate(2)">★</span>
-            <span class="star" onclick="rate(3)">★</span>
-            <span class="star" onclick="rate(4)">★</span>
-            <span class="star" onclick="rate(5)">★</span>
-
-        </div>
-
-        <textarea
-            id="feedbackText"
-            placeholder="Tell us what you think..."
-        ></textarea>
-
-        <button
-            class="search-btn"
-            style="width:100%;margin-top:15px;"
-            onclick="submitFeedback()"
-        >
-            Submit Feedback
-        </button>
-
+  <div class="modal-content">
+    <span class="close" onclick="closeFeedback()">×</span>
+    <h2>How was your RIDEZY experience? 💛</h2>
+    <p style="margin-top:10px;color:#777">Your feedback helps us improve.</p>
+    <div class="stars">
+      <span class="star" onclick="rate(1)">★</span><span class="star" onclick="rate(2)">★</span><span class="star" onclick="rate(3)">★</span><span class="star" onclick="rate(4)">★</span><span class="star" onclick="rate(5)">★</span>
     </div>
-
+    <textarea id="feedbackText" placeholder="Tell us what you think..." aria-label="Feedback"></textarea>
+    <button class="search-btn" style="width:100%;margin-top:15px" onclick="submitFeedback()">Submit Feedback</button>
+  </div>
 </div>
 
-
 <footer>
-
-    <div class="logo" style="justify-content:center;margin-bottom:10px;">
-        <span>🚗</span>
-        <span>RIDE</span><span style="color:#ff7a00;">ZY</span>
-    </div>
-
-    <p>
-        Ride smarter. Ride happier. <span>Ride RIDEZY.</span>
-    </p>
-
-    <p style="margin-top:15px;color:#777;">
-        © 2026 RIDEZY • Demo Ride Booking Platform
-    </p>
-
+  <div class="logo" style="justify-content:center;margin-bottom:10px"><span>🚗</span><span>RIDE</span><span style="color:#ff7a00">ZY</span></div>
+  <p>Ride smarter. Ride happier. <span>Ride RIDEZY.</span></p>
+  <p style="margin-top:15px;color:#777">© 2026 RIDEZY • Demo Ride Booking Platform</p>
 </footer>
 
-
 <script>
-
-/* ============================================================
-   RIDEZY LOCATION + ROUTING SYSTEM
-   Uses OpenStreetMap Nominatim for location recognition
-   and OSRM for road distance/time.
-   ============================================================ */
-
 let currentRoute = null;
+let currentDistanceKm = 0;
 let selectedRating = 0;
+let currentFares = {};
+let routeRequestId = 0;
 
-
-/* ================= LOCATION SEARCH ================= */
-
-function setupLocationSearch(inputId, suggestionId) {
-
-    const input = document.getElementById(inputId);
-    const suggestions = document.getElementById(suggestionId);
-
-    let timer;
-
-    input.addEventListener("input", function() {
-
-        clearTimeout(timer);
-
-        const query = input.value.trim();
-
-        if (query.length < 3) {
-            suggestions.innerHTML = "";
-            return;
-        }
-
-        timer = setTimeout(async () => {
-
-            try {
-
-                const url =
-                    "https://nominatim.openstreetmap.org/search" +
-                    "?format=json" +
-                    "&countrycodes=in" +
-                    "&limit=5" +
-                    "&addressdetails=1" +
-                    "&q=" +
-                    encodeURIComponent(query);
-
-                const response = await fetch(url, {
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                });
-
-                const data = await response.json();
-
-                suggestions.innerHTML = "";
-
-                data.forEach(place => {
-
-                    const div = document.createElement("div");
-
-                    div.className = "suggestion";
-
-                    div.innerHTML =
-                        "📍 " + place.display_name;
-
-                    div.onclick = function() {
-
-                        input.value = place.display_name;
-
-                        input.dataset.lat = place.lat;
-                        input.dataset.lon = place.lon;
-
-                        suggestions.innerHTML = "";
-                    };
-
-                    suggestions.appendChild(div);
-
-                });
-
-            } catch(error) {
-
-                suggestions.innerHTML =
-                    "<div class='suggestion'>Unable to find location</div>";
-
-            }
-
-        }, 500);
-
-    });
-
+function showRouteError(message) {
+  const box = document.getElementById("routeError");
+  box.textContent = message;
+  box.hidden = false;
+}
+function clearRouteError() {
+  const box = document.getElementById("routeError");
+  box.textContent = "";
+  box.hidden = true;
+}
+function showSuggestionsMessage(container, message) {
+  container.replaceChildren();
+  const item = document.createElement("div");
+  item.className = "suggestion";
+  item.textContent = message;
+  container.appendChild(item);
 }
 
+function setupLocationSearch(inputId, suggestionId) {
+  const input = document.getElementById(inputId);
+  const suggestions = document.getElementById(suggestionId);
+  let timer;
+
+  input.addEventListener("input", function() {
+    clearTimeout(timer);
+    delete input.dataset.lat;
+    delete input.dataset.lon;
+    const query = input.value.trim();
+    suggestions.replaceChildren();
+    clearRouteError();
+    if (query.length < 3) return;
+
+    timer = setTimeout(async () => {
+      showSuggestionsMessage(suggestions, "Searching locations...");
+      try {
+        const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&limit=5&addressdetails=1&q=" + encodeURIComponent(query);
+        const response = await fetch(url, {headers: {"Accept": "application/json"}});
+        if (!response.ok) throw new Error("LOCATION_SERVICE");
+        const data = await response.json();
+        suggestions.replaceChildren();
+
+        if (!data.length) {
+          showSuggestionsMessage(suggestions, "No matching places found. Try a more specific name.");
+          return;
+        }
+
+        data.forEach(place => {
+          const div = document.createElement("div");
+          div.className = "suggestion";
+          div.textContent = "📍 " + place.display_name;
+          div.onclick = function() {
+            input.value = place.display_name;
+            input.dataset.lat = place.lat;
+            input.dataset.lon = place.lon;
+            suggestions.replaceChildren();
+            clearRouteError();
+          };
+          suggestions.appendChild(div);
+        });
+      } catch (error) {
+        showSuggestionsMessage(suggestions, "Location search is unavailable. Check your connection and try again.");
+      }
+    }, 500);
+  });
+}
 
 setupLocationSearch("from", "fromSuggestions");
 setupLocationSearch("to", "toSuggestions");
 
-
-/* ================= FIND RIDE ================= */
-
 async function findRide() {
+  const requestId = ++routeRequestId;
+  const fromInput = document.getElementById("from");
+  const toInput = document.getElementById("to");
+  const from = fromInput.value.trim();
+  const to = toInput.value.trim();
 
-    const fromInput = document.getElementById("from");
-    const toInput = document.getElementById("to");
+  clearRouteError();
+  document.getElementById("results").style.display = "none";
+  currentRoute = null;
+  currentFares = {};
 
-    const from = fromInput.value.trim();
-    const to = toInput.value.trim();
+  if (!from || !to) {
+    showRouteError("Please enter both your pickup location and destination.");
+    return;
+  }
+  if (from.toLowerCase() === to.toLowerCase()) {
+    showRouteError("Your pickup and destination look the same. Choose two different locations.");
+    return;
+  }
 
-    if (!from || !to) {
+  document.getElementById("loading").style.display = "block";
 
-        alert("Please enter both pickup and destination 📍");
+  try {
+    const fromLocation = await getCoordinates(fromInput);
+    const toLocation = await getCoordinates(toInput);
+    if (requestId !== routeRequestId) return;
 
-        return;
+    const routeURL = "https://router.project-osrm.org/route/v1/driving/" +
+      encodeURIComponent(fromLocation.lon) + "," + encodeURIComponent(fromLocation.lat) + ";" +
+      encodeURIComponent(toLocation.lon) + "," + encodeURIComponent(toLocation.lat) +
+      "?overview=false";
+
+    const routeResponse = await fetch(routeURL);
+    if (!routeResponse.ok) throw new Error("ROUTE_SERVICE");
+    const routeData = await routeResponse.json();
+
+    if (routeData.code === "NoRoute" || !routeData.routes || routeData.routes.length === 0) {
+      throw new Error("NO_ROUTE");
     }
-
-    document.getElementById("results").style.display = "none";
-    document.getElementById("loading").style.display = "block";
-
-    try {
-
-        const fromLocation =
-            await getCoordinates(fromInput);
-
-        const toLocation =
-            await getCoordinates(toInput);
-
-
-        const routeURL =
-            "https://router.project-osrm.org/route/v1/driving/" +
-            fromLocation.lon + "," +
-            fromLocation.lat + ";" +
-            toLocation.lon + "," +
-            toLocation.lat +
-            "?overview=false";
-
-        const routeResponse =
-            await fetch(routeURL);
-
-        const routeData =
-            await routeResponse.json();
-
-
-        if (
-            !routeData.routes ||
-            routeData.routes.length === 0
-        ) {
-
-            throw new Error("Route not found");
-
-        }
-
-
-        const route = routeData.routes[0];
-
-        currentRoute = route;
-
-
-        const distanceKm =
-            route.distance / 1000;
-
-        const durationMin =
-            Math.max(
-                1,
-                Math.round(route.duration / 60)
-            );
-
-
-        /* Real route information */
-
-        document.getElementById("distance").textContent =
-            distanceKm.toFixed(1) + " km";
-
-        document.getElementById("duration").textContent =
-            formatDuration(durationMin);
-
-
-        document.getElementById("routeText").innerHTML =
-            "<b>" +
-            escapeHTML(from) +
-            "</b> → <b>" +
-            escapeHTML(to) +
-            "</b>";
-
-
-        /* Dynamic fares */
-
-        const autoFare =
-            Math.max(
-                50,
-                Math.round(
-                    35 + distanceKm * 13
-                )
-            );
-
-        const miniFare =
-            Math.max(
-                80,
-                Math.round(
-                    55 + distanceKm * 15
-                )
-            );
-
-        const primeFare =
-            Math.max(
-                120,
-                Math.round(
-                    85 + distanceKm * 20
-                )
-            );
-
-        const xlFare =
-            Math.max(
-                150,
-                Math.round(
-                    110 + distanceKm * 24
-                )
-            );
-
-
-        document.getElementById("autoPrice").textContent =
-            "₹" + autoFare;
-
-        document.getElementById("miniPrice").textContent =
-            "₹" + miniFare;
-
-        document.getElementById("primePrice").textContent =
-            "₹" + primeFare;
-
-        document.getElementById("xlPrice").textContent =
-            "₹" + xlFare;
-
-
-        /* Driver arrival estimates */
-
-        document.getElementById("autoTime").textContent =
-            "3–6 min away";
-
-        document.getElementById("miniTime").textContent =
-            "4–7 min away";
-
-        document.getElementById("primeTime").textContent =
-            "5–8 min away";
-
-        document.getElementById("xlTime").textContent =
-            "6–10 min away";
-
-
-        document.getElementById("loading").style.display =
-            "none";
-
-        document.getElementById("results").style.display =
-            "block";
-
-
-        document.getElementById("results").scrollIntoView({
-            behavior: "smooth"
-        });
-
-
-    } catch(error) {
-
-        document.getElementById("loading").style.display =
-            "none";
-
-        alert(
-            "We couldn't calculate that route. Please check the location names and try again."
-        );
-
-    }
-
-}
-
-
-/* ================= GEOCODING ================= */
-
-async function getCoordinates(input) {
-
-    if (
-        input.dataset.lat &&
-        input.dataset.lon
-    ) {
-
-        return {
-            lat: input.dataset.lat,
-            lon: input.dataset.lon
-        };
-
-    }
-
-
-    const query = input.value.trim();
-
-    const url =
-        "https://nominatim.openstreetmap.org/search" +
-        "?format=json" +
-        "&countrycodes=in" +
-        "&limit=1" +
-        "&q=" +
-        encodeURIComponent(query);
-
-
-    const response =
-        await fetch(url, {
-            headers: {
-                "Accept": "application/json"
-            }
-        });
-
-
-    const data =
-        await response.json();
-
-
-    if (!data.length) {
-        throw new Error(
-            "Location not found"
-        );
-    }
-
-
-    input.dataset.lat =
-        data[0].lat;
-
-    input.dataset.lon =
-        data[0].lon;
-
-
-    return {
-        lat: data[0].lat,
-        lon: data[0].lon
+    if (routeData.code !== "Ok") throw new Error("ROUTE_SERVICE");
+    if (requestId !== routeRequestId) return;
+
+    const route = routeData.routes[0];
+    currentRoute = route;
+    const distanceKm = route.distance / 1000;
+    currentDistanceKm = distanceKm;
+    const durationMin = Math.max(1, Math.round(route.duration / 60));
+
+    document.getElementById("distance").textContent = distanceKm.toFixed(1) + " km";
+    document.getElementById("duration").textContent = formatDuration(durationMin);
+    document.getElementById("routeText").innerHTML =
+      "<b>" + escapeHTML(from) + "</b> → <b>" + escapeHTML(to) + "</b>";
+
+    const autoFare = Math.max(50, Math.round(35 + distanceKm * 13));
+    const miniFare = Math.max(80, Math.round(55 + distanceKm * 15));
+    const primeFare = Math.max(120, Math.round(85 + distanceKm * 20));
+    const xlFare = Math.max(150, Math.round(110 + distanceKm * 24));
+
+    currentFares = {
+      "RIDEZY Auto": {base: 35, rate: 13, minimum: 50, total: autoFare},
+      "RIDEZY Mini": {base: 55, rate: 15, minimum: 80, total: miniFare},
+      "RIDEZY Prime": {base: 85, rate: 20, minimum: 120, total: primeFare},
+      "RIDEZY XL": {base: 110, rate: 24, minimum: 150, total: xlFare}
     };
 
+    document.getElementById("autoPrice").textContent = "₹" + autoFare;
+    document.getElementById("miniPrice").textContent = "₹" + miniFare;
+    document.getElementById("primePrice").textContent = "₹" + primeFare;
+    document.getElementById("xlPrice").textContent = "₹" + xlFare;
+
+    document.getElementById("autoTime").textContent = "3–6 min away (demo)";
+    document.getElementById("miniTime").textContent = "4–7 min away (demo)";
+    document.getElementById("primeTime").textContent = "5–8 min away (demo)";
+    document.getElementById("xlTime").textContent = "6–10 min away (demo)";
+
+    document.getElementById("results").style.display = "block";
+    document.getElementById("results").scrollIntoView({behavior: "smooth"});
+  } catch (error) {
+    console.error("RIDEZY route error:", error);
+    const messages = {
+      LOCATION_NOT_FOUND: "We couldn't find one of those locations in India. Try a more specific place name.",
+      LOCATION_SERVICE: "The location search service is temporarily unavailable. Check your internet connection and try again.",
+      ROUTE_SERVICE: "The routing service is temporarily unavailable. Please try again shortly.",
+      NO_ROUTE: "We couldn't find a driving route between these places. Try nearby or more accessible locations."
+    };
+    showRouteError(messages[error.message] || "Something went wrong while finding your route. Check your connection and try again.");
+  } finally {
+    if (requestId === routeRequestId) {
+      document.getElementById("loading").style.display = "none";
+    }
+  }
 }
 
+async function getCoordinates(input) {
+  if (input.dataset.lat && input.dataset.lon) {
+    return {lat: input.dataset.lat, lon: input.dataset.lon};
+  }
 
-/* ================= TIME FORMAT ================= */
+  const query = input.value.trim();
+  if (!query) throw new Error("LOCATION_NOT_FOUND");
+
+  let response;
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&limit=1&q=" + encodeURIComponent(query);
+    response = await fetch(url, {headers: {"Accept": "application/json"}});
+  } catch (error) {
+    throw new Error("LOCATION_SERVICE");
+  }
+
+  if (!response.ok) throw new Error("LOCATION_SERVICE");
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error("LOCATION_SERVICE");
+  }
+
+  if (!Array.isArray(data) || data.length === 0) throw new Error("LOCATION_NOT_FOUND");
+  input.dataset.lat = data[0].lat;
+  input.dataset.lon = data[0].lon;
+  return {lat: data[0].lat, lon: data[0].lon};
+}
 
 function formatDuration(minutes) {
-
-    if (minutes < 60) {
-
-        return minutes + " min";
-
-    }
-
-    const hours =
-        Math.floor(minutes / 60);
-
-    const mins =
-        minutes % 60;
-
-    if (mins === 0) {
-
-        return hours + " hr";
-
-    }
-
-    return (
-        hours +
-        " hr " +
-        mins +
-        " min"
-    );
-
+  if (minutes < 60) return minutes + " min";
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return mins === 0 ? hours + " hr" : hours + " hr " + mins + " min";
 }
-
-
-/* ================= RIDE SELECTION ================= */
-
-function selectRide(name) {
-
-    document.getElementById("selectedRide").textContent =
-        name + " 🚗";
-
-
-    const arrival =
-        Math.floor(
-            Math.random() * 5
-        ) + 3;
-
-
-    document.getElementById("arrivalTime").textContent =
-        arrival + " minutes";
-
-
-    document.getElementById("rideModal").style.display =
-        "flex";
-
-}
-
-
-function closeModal() {
-
-    document.getElementById("rideModal").style.display =
-        "none";
-
-}
-
-
-/* ================= CHAT ================= */
-
-function toggleChat() {
-
-    const box =
-        document.getElementById("chatBox");
-
-    box.style.display =
-        box.style.display === "block"
-            ? "none"
-            : "block";
-
-}
-
-
-function sendMessage() {
-
-    const input =
-        document.getElementById("chatInput");
-
-    const text =
-        input.value.trim();
-
-    if (!text) return;
-
-
-    const messages =
-        document.getElementById("messages");
-
-
-    const message =
-        document.createElement("div");
-
-    message.className =
-        "message";
-
-    message.textContent =
-        "You: " + text;
-
-    messages.appendChild(message);
-
-
-    input.value = "";
-
-    messages.scrollTop =
-        messages.scrollHeight;
-
-
-    setTimeout(() => {
-
-        const reply =
-            document.createElement("div");
-
-        reply.className =
-            "message";
-
-        reply.textContent =
-            "Driver: Got it 👍";
-
-        messages.appendChild(reply);
-
-        messages.scrollTop =
-            messages.scrollHeight;
-
-    }, 800);
-
-}
-
-
-/* ================= LEAVE CAR ================= */
-
-function leaveCar() {
-
-    const confirmLeave =
-        confirm(
-            "Are you sure you want to leave the ride?"
-        );
-
-    if (confirmLeave) {
-
-        alert(
-            "Ride ended safely. Thank you for riding with RIDEZY! 🚗"
-        );
-
-        closeModal();
-
-    }
-
-}
-
-
-/* ================= SOS ================= */
-
-function SOS() {
-
-    alert(
-        "🆘 RIDEZY SOS\n\n" +
-        "Emergency assistance has been activated.\n\n" +
-        "In this demo version, this button only simulates the SOS feature."
-    );
-
-}
-
-
-/* ================= FEEDBACK ================= */
-
-function openFeedback() {
-
-    document.getElementById("feedbackModal").style.display =
-        "flex";
-
-}
-
-
-function closeFeedback() {
-
-    document.getElementById("feedbackModal").style.display =
-        "none";
-
-}
-
-
-function rate(number) {
-
-    selectedRating =
-        number;
-
-    const stars =
-        document.querySelectorAll(".star");
-
-
-    stars.forEach((star, index) => {
-
-        if (index < number) {
-
-            star.classList.add("active");
-
-        } else {
-
-            star.classList.remove("active");
-
-        }
-
-    });
-
-}
-
-
-function submitFeedback() {
-
-    if (selectedRating === 0) {
-
-        alert(
-            "Please select a rating ⭐"
-        );
-
-        return;
-
-    }
-
-
-    alert(
-        "Thank you for your feedback! 💛\n\n" +
-        "You rated RIDEZY " +
-        selectedRating +
-        "/5."
-    );
-
-
-    document.getElementById("feedbackText").value =
-        "";
-
-    selectedRating =
-        0;
-
-    document.querySelectorAll(".star")
-        .forEach(star =>
-            star.classList.remove("active")
-        );
-
-    closeFeedback();
-
-}
-
-
-/* ================= POPULAR DESTINATION ================= */
-
-function setDestination(place) {
-
-    document.getElementById("to").value =
-        place;
-
-    document.getElementById("to").focus();
-
-}
-
-
-/* ================= SCROLL ================= */
-
-function scrollToRides() {
-
-    document.getElementById("results")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-
-}
-
-
-/* ================= SECURITY / TEXT ================= */
-
-function escapeHTML(text) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        text;
-
-    return div.innerHTML;
-
-}
-
-
-/* ================= CLOSE MODALS ================= */
-
-window.onclick = function(event) {
-
-    const rideModal =
-        document.getElementById("rideModal");
-
-    const feedbackModal =
-        document.getElementById("feedbackModal");
-
-
-    if (event.target === rideModal) {
-
-        closeModal();
-
-    }
-
-    if (event.target === feedbackModal) {
-
-        closeFeedback();
-
-    }
-
-};
-
-
-/* ================= ENTER KEY ================= */
-
-document.getElementById("from")
-    .addEventListener("keydown", function(e) {
-
-        if (e.key === "Enter") {
-
-            document.getElementById("to").focus();
-
-        }
-
-    });
-
-
-document.getElementById("to")
-    .addEventListener("keydown", function(e) {
-
-        if (e.key === "Enter") {
-
-            findRide();
-
-        }
-
-    });
-
 </script>
 
+<script>
+function selectRide(name) {
+  const fare = currentFares[name];
+  if (!fare) {
+    showRouteError("Please find a route before choosing a ride.");
+    return;
+  }
+
+  document.getElementById("selectedRide").textContent = name + " 🚗";
+
+  const rawDistanceCharge = Math.round(currentDistanceKm * fare.rate);
+  const total = fare.total;
+  const distanceCharge = Math.min(rawDistanceCharge, total);
+  const baseComponent = Math.min(fare.base, total - distanceCharge);
+  const minimumAdjustment = Math.max(0, total - baseComponent - distanceCharge);
+
+  document.getElementById("baseFareAmount").textContent = "₹" + baseComponent;
+  document.getElementById("distanceFareAmount").textContent = "₹" + distanceCharge;
+  document.getElementById("minimumFareAmount").textContent = "₹" + minimumAdjustment;
+  document.getElementById("minimumFareRow").hidden = minimumAdjustment === 0;
+  document.getElementById("totalFareAmount").textContent = "₹" + total;
+
+  document.getElementById("arrivalTime").textContent =
+    (Math.floor(Math.random() * 5) + 3) + " minutes";
+  document.getElementById("rideModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("rideModal").style.display = "none";
+}
+
+function toggleChat() {
+  const box = document.getElementById("chatBox");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  const messages = document.getElementById("messages");
+  const message = document.createElement("div");
+  message.className = "message";
+  message.textContent = "You: " + text;
+  messages.appendChild(message);
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+    const reply = document.createElement("div");
+    reply.className = "message";
+    reply.textContent = "Driver demo: Got it 👍";
+    messages.appendChild(reply);
+    messages.scrollTop = messages.scrollHeight;
+  }, 800);
+}
+
+function leaveCar() {
+  if (confirm("End this demo ride?")) {
+    alert("Demo ride ended. Thank you for trying RIDEZY! 🚗");
+    closeModal();
+  }
+}
+
+function SOS() {
+  alert("🆘 RIDEZY SOS DEMO\n\nThis button does not contact emergency services. If you are in danger, call your local emergency number directly.");
+}
+
+function openFeedback() {
+  document.getElementById("feedbackModal").style.display = "flex";
+}
+function closeFeedback() {
+  document.getElementById("feedbackModal").style.display = "none";
+}
+function rate(number) {
+  selectedRating = number;
+  document.querySelectorAll(".star").forEach((star, index) => {
+    star.classList.toggle("active", index < number);
+  });
+}
+function submitFeedback() {
+  if (selectedRating === 0) {
+    alert("Please select a rating ⭐");
+    return;
+  }
+
+  alert("Thank you for your feedback! 💛\n\nYou rated RIDEZY " +
+    selectedRating + "/5.\n\nThis demo does not save feedback to a server.");
+
+  document.getElementById("feedbackText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll(".star").forEach(star => star.classList.remove("active"));
+  closeFeedback();
+}
+
+function setDestination(place) {
+  const input = document.getElementById("to");
+  input.value = place;
+  delete input.dataset.lat;
+  delete input.dataset.lon;
+  clearRouteError();
+  input.focus();
+}
+
+function scrollToRides() {
+  document.getElementById("results").scrollIntoView({behavior: "smooth"});
+}
+
+function escapeHTML(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+window.onclick = function(event) {
+  const rideModal = document.getElementById("rideModal");
+  const feedbackModal = document.getElementById("feedbackModal");
+  if (event.target === rideModal) closeModal();
+  if (event.target === feedbackModal) closeFeedback();
+};
+
+document.getElementById("from").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("to").focus();
+  }
+});
+document.getElementById("to").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    findRide();
+  }
+});
+</script>
 </body>
 </html>
