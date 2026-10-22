@@ -1,562 +1,578 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RIDEZY 🚗</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RideZy – ride into the glitter</title>
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Arial,sans-serif}
-body{background:#f7f8fa;color:#111;min-height:100vh}
-header{height:75px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 7%;border-bottom:1px solid #eee;position:sticky;top:0;z-index:100}
-.logo{font-size:30px;font-weight:900;letter-spacing:-1px;display:flex;align-items:center;gap:5px}
-.logo-car{font-size:34px}.logo-orange{color:#ff7a00;animation:shake 1.5s infinite}
-@keyframes shake{0%,80%,100%{transform:rotate(0)}84%{transform:rotate(-8deg)}88%{transform:rotate(8deg)}92%{transform:rotate(-5deg)}96%{transform:rotate(5deg)}}
-.nav{display:flex;gap:28px;align-items:center}.nav span{cursor:pointer;font-weight:600}
-.sos-top{background:#ff3b30;color:#fff;padding:10px 18px;border-radius:22px}
-.hero{background:linear-gradient(135deg,#111,#272727);color:#fff;min-height:420px;padding:60px 7%;display:flex;justify-content:space-between;align-items:center}
-.hero-text{max-width:600px}.hero h1{font-size:clamp(40px,6vw,72px);line-height:1;margin-bottom:20px}
-.hero h1 span{color:#ff7a00}.hero p{color:#cfcfcf;font-size:18px;line-height:1.6}
-.hero-car{font-size:150px;animation:drive 4s infinite ease-in-out}
-@keyframes drive{0%,100%{transform:translateX(30px)}50%{transform:translateX(-30px)}}
-.booking-wrapper{width:86%;max-width:1100px;margin:-70px auto 40px;position:relative;z-index:10}
-.booking-card{background:#fff;padding:30px;border-radius:25px;box-shadow:0 15px 45px #0002}
-.booking-title{font-size:24px;font-weight:800;margin-bottom:20px}
-.inputs{display:grid;grid-template-columns:1fr 1fr auto;gap:15px}
-.input-box{position:relative}.input-box label{display:block;font-size:13px;color:#777;margin-bottom:7px;font-weight:600}
-.input-box input{width:100%;padding:16px;border:1px solid #ddd;border-radius:13px;font-size:16px;outline:none}
-.input-box input:focus{border-color:#ff7a00;box-shadow:0 0 0 3px #ff7a001a}
-.search-btn{align-self:end;padding:16px 25px;background:#ff7a00;border:none;border-radius:13px;color:#fff;font-weight:800;font-size:16px;cursor:pointer}
-.search-btn:hover{background:#e96800}
-.suggestions{position:absolute;background:#fff;width:100%;border:1px solid #ddd;border-radius:12px;margin-top:5px;overflow:hidden;z-index:50;box-shadow:0 8px 25px #0001;max-height:260px;overflow-y:auto}
-.suggestion{padding:13px 15px;cursor:pointer;border-bottom:1px solid #eee;font-size:13px}.suggestion:hover{background:#fff4ea}
-.route-error{margin-top:14px;padding:12px 15px;border:1px solid #fecaca;border-radius:12px;background:#fef2f2;color:#b91c1c;font-size:14px;line-height:1.5}
-.route-error[hidden]{display:none}
-.popular{width:86%;max-width:1100px;margin:30px auto}.section-title{font-size:27px;margin-bottom:20px}
-.place-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.place{background:#fff;border-radius:18px;padding:20px;cursor:pointer;border:1px solid #eee;transition:.2s}
-.place:hover{transform:translateY(-5px);box-shadow:0 10px 25px #0001}
-.place-icon{font-size:30px;margin-bottom:10px}.place b{display:block;margin-bottom:5px}.place small{color:#777}
-.results{width:86%;max-width:1100px;margin:40px auto;display:none}
-.results h2{margin-bottom:20px}.route-info{background:#111;color:#fff;border-radius:20px;padding:25px;margin-bottom:25px}
-.route-info strong{color:#ff7a00}.route-line{margin-top:10px;color:#ddd}
-.rides{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.ride{background:#fff;padding:22px;border-radius:20px;border:1px solid #eee;cursor:pointer;transition:.25s}
-.ride:hover{transform:translateY(-5px);box-shadow:0 12px 30px #0001}
-.ride-header{display:flex;align-items:center;justify-content:space-between}.ride-name{font-size:20px;font-weight:800}
-.ride-icon{font-size:42px}.ride-details{color:#666;margin:12px 0}.price{font-size:22px;font-weight:900}
-.select-btn{margin-top:15px;width:100%;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;cursor:pointer;font-weight:bold}
-.loading{display:none;text-align:center;padding:30px}.spinner{width:40px;height:40px;border:4px solid #ddd;border-top-color:#ff7a00;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 15px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.modal{display:none;position:fixed;inset:0;background:#000a;z-index:500;align-items:center;justify-content:center;padding:20px}
-.modal-content{background:#fff;width:100%;max-width:550px;border-radius:25px;padding:30px;max-height:90vh;overflow-y:auto}
-.close{float:right;font-size:27px;cursor:pointer}
-.fare-breakdown{margin:18px 0;padding:16px;border:1px solid #eee;border-radius:15px;background:#fffaf5}
-.fare-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;color:#444;font-size:14px}
-.fare-total{margin-top:6px;padding-top:13px;border-top:1px solid #e5e5e5;color:#111;font-size:17px;font-weight:800}
-.fare-note{margin-top:10px;color:#777;font-size:12px;line-height:1.5}
-.driver{display:flex;align-items:center;gap:15px;margin:25px 0;padding:15px;border-radius:15px;background:#f5f5f5}
-.driver-photo{width:60px;height:60px;border-radius:50%;background:#ff7a00;display:flex;align-items:center;justify-content:center;font-size:30px}
-.driver-info b{display:block;font-size:18px}.rating{color:#ff7a00}
-.action-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-.action{padding:14px;border:none;border-radius:12px;cursor:pointer;font-weight:bold}
-.chat{background:#111;color:#fff}.leave{background:#eee}.sos{background:#ff3b30;color:#fff}.feedback{background:#ff7a00;color:#fff}
-.chat-box{display:none;margin-top:20px}.messages{height:180px;overflow-y:auto;background:#f5f5f5;border-radius:15px;padding:15px}
-.message{background:#fff;padding:10px;border-radius:10px;margin-bottom:8px;width:fit-content;max-width:100%;overflow-wrap:anywhere}
-.chat-input{display:flex;gap:8px;margin-top:10px}.chat-input input{flex:1;min-width:0;padding:12px;border:1px solid #ddd;border-radius:10px}
-.chat-input button{background:#ff7a00;color:#fff;border:none;border-radius:10px;padding:12px 18px;cursor:pointer}
-.stars{font-size:35px;margin:20px 0}.star{cursor:pointer;color:#ccc}.star.active{color:#ff7a00}
-textarea{width:100%;height:100px;padding:15px;border:1px solid #ddd;border-radius:12px;resize:vertical}
-footer{background:#111;color:#fff;padding:40px 7%;margin-top:70px;text-align:center}
-footer span{color:#ff7a00}
-@media(max-width:800px){
-.nav{display:none}.hero{padding:45px 7%}.hero-car{display:none}
-.inputs{grid-template-columns:1fr}.search-btn{width:100%}
-.place-grid{grid-template-columns:repeat(2,1fr)}.rides{grid-template-columns:1fr}
+:root{
+  --navy:#1b2677;      /* matches the car logo */
+  --navy-soft:#3a4590;
+  --rose:#ec4f7d;      /* the ZY colour */
+  --blush:#f6c1c8;
+  --sage:#8f9d6a;
+  --gold:#f0c97a;
+  --pearl:#fffaf5;
+  --glass:rgba(255,250,245,.58);
+  --line:rgba(255,255,255,.75);
+  --display:'Fraunces',Georgia,serif;
+  --body:'DM Sans',system-ui,sans-serif;
 }
-@media(max-width:500px){
-.booking-wrapper,.popular,.results{width:92%}.booking-card{padding:20px}
-.hero h1{font-size:42px}.modal-content{padding:22px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--navy);background:#cfd6d0;min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+
+/* ---------- whimsical background (your first image) ---------- */
+.bg{position:fixed;inset:-6%;z-index:-3;background:url('images/bg.jpg') center/cover no-repeat;animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.12) translate(-2.5%,-2%)}}
+.bg-veil{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(255,250,245,.18),rgba(255,250,245,.38))}
+#sparkles{position:fixed;inset:0;z-index:-1;pointer-events:none}
+
+/* ---------- logo + wordmark ---------- */
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;color:var(--navy)}
+.brand img{height:34px;width:auto;filter:drop-shadow(0 3px 4px rgba(27,38,119,.25))}
+.wordmark{font-family:var(--display);font-weight:900;font-size:1.9rem;letter-spacing:-.02em;line-height:1}
+.zy{display:inline-block;color:var(--rose);background:linear-gradient(100deg,var(--rose),#f6a1b6 55%,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transform-origin:50% 80%;animation:shake 2.6s infinite}
+.brand:hover .zy,.zy.hot{animation:shake .35s infinite}
+@keyframes shake{
+  0%,18%,100%{transform:translate(0,0) rotate(0)}
+  2%{transform:translate(-2px,1px) rotate(-6deg)}4%{transform:translate(2px,-1px) rotate(6deg)}
+  6%{transform:translate(-2px,0) rotate(-5deg)}8%{transform:translate(2px,1px) rotate(5deg)}
+  10%{transform:translate(-1px,-1px) rotate(-3deg)}12%{transform:translate(1px,0) rotate(3deg)}
+  14%{transform:translate(0,0) rotate(-1deg)}
+}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:.8rem clamp(1rem,4vw,3rem);backdrop-filter:blur(14px) saturate(1.3);background:rgba(255,250,245,.42);border-bottom:1px solid var(--line)}
+nav{display:flex;gap:.4rem}
+nav a{padding:.5rem .95rem;border-radius:99px;text-decoration:none;color:var(--navy);font-weight:500;font-size:.95rem}
+nav a:hover{background:rgba(255,255,255,.7)}
+
+/* ---------- layout ---------- */
+main{max-width:1180px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem) 5rem}
+.hero{padding:1.5rem 0 2rem;max-width:640px}
+.hero h1{font-family:var(--display);font-weight:900;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;letter-spacing:-.03em}
+.hero p{margin-top:1rem;font-size:1.1rem;max-width:46ch;line-height:1.5;color:var(--navy-soft)}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:1.4rem;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--glass);backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--line);border-radius:28px 28px 28px 8px;padding:1.4rem;box-shadow:0 18px 50px -20px rgba(27,38,119,.35)}
+.panel.alt{border-radius:8px 28px 28px 28px}
+h2{font-family:var(--display);font-weight:700;font-size:1.35rem;margin-bottom:.9rem;letter-spacing:-.01em}
+label.f{display:block;font-size:.85rem;font-weight:500;margin:.8rem 0 .3rem;color:var(--navy-soft)}
+select,.in{width:100%;padding:.8rem 1rem;border-radius:16px;border:1.5px solid rgba(27,38,119,.15);background:rgba(255,255,255,.8)}
+.route-row{display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end}
+.swap{width:46px;height:46px;border-radius:50%;background:var(--navy);color:#fff;font-size:1.2rem;transition:transform .35s}
+.swap:hover{transform:rotate(180deg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.seg{display:flex;background:rgba(255,255,255,.6);border-radius:99px;padding:4px}
+.seg button{flex:1;padding:.55rem;border-radius:99px;font-weight:500}
+.seg button.on{background:var(--navy);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{padding:.5rem .9rem;border-radius:99px;background:rgba(255,255,255,.7);border:1.5px solid transparent;font-weight:500;font-size:.92rem}
+.chip.on{border-color:var(--rose);background:#fff;color:var(--rose)}
+.stepper{display:flex;align-items:center;gap:.8rem}
+.stepper button{width:38px;height:38px;border-radius:50%;background:#fff;font-size:1.2rem;font-weight:700}
+.stepper b{min-width:1.5rem;text-align:center;font-size:1.2rem}
+
+/* vehicles */
+.cars{display:grid;gap:.55rem}
+.car{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:.8rem;padding:.7rem .9rem;border-radius:18px;background:rgba(255,255,255,.62);border:2px solid transparent;text-align:left;transition:transform .2s,border-color .2s}
+.car:hover{transform:translateX(4px)}
+.car.on{border-color:var(--navy);background:#fff}
+.car .ico{font-size:1.7rem;text-align:center}
+.car .ico img{width:44px;mix-blend-mode:multiply}
+.car small{display:block;color:var(--navy-soft);font-size:.8rem}
+.car .pr{font-family:var(--display);font-weight:700;font-size:1.15rem}
+
+/* map */
+.mapwrap{position:relative;border-radius:22px;overflow:hidden;background:#e9efe6;aspect-ratio:400/420;border:1px solid var(--line)}
+.mapwrap svg{width:100%;height:100%;display:block}
+.pill{position:absolute;left:.8rem;bottom:.8rem;background:rgba(255,255,255,.88);padding:.45rem .8rem;border-radius:99px;font-size:.85rem;font-weight:500}
+
+/* fare */
+.fare{margin-top:1rem}
+.row{display:flex;justify-content:space-between;padding:.4rem 0;font-size:.95rem;border-bottom:1px dashed rgba(27,38,119,.15)}
+.row.neg span:last-child{color:#4a7a3a}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-top:.8rem}
+.total b{font-family:var(--display);font-size:2.6rem;letter-spacing:-.03em}
+.pp{color:var(--rose);font-weight:700;text-align:right;min-height:1.2em}
+.promo{display:flex;gap:.5rem}
+.promo button,.cta{background:var(--navy);color:#fff;border-radius:16px;padding:.8rem 1.2rem;font-weight:700}
+.cta{width:100%;margin-top:1rem;padding:1.05rem;font-size:1.1rem;border-radius:20px;background:linear-gradient(100deg,var(--navy),#3341a5);box-shadow:0 12px 24px -10px var(--navy);transition:transform .2s}
+.cta:hover{transform:translateY(-2px)}
+.msg{font-size:.85rem;margin-top:.35rem;min-height:1.1em}
+.toggle{display:flex;align-items:center;gap:.6rem;margin-top:.8rem;font-size:.92rem;cursor:pointer}
+.toggle input{accent-color:var(--rose);width:18px;height:18px}
+
+/* forecast */
+.forecast{display:flex;align-items:flex-end;gap:3px;height:140px;margin-top:.6rem}
+.forecast button{flex:1;border-radius:6px 6px 2px 2px;min-height:6px;position:relative;transition:height .5s,transform .2s}
+.forecast button:hover{transform:scaleY(1.04)}
+.forecast button.now{outline:2.5px solid var(--navy);outline-offset:1px}
+.fc-axis{display:flex;justify-content:space-between;font-size:.75rem;color:var(--navy-soft);margin-top:.3rem}
+.legend{display:flex;gap:1rem;font-size:.8rem;margin-top:.6rem;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.3rem}
+.fullw{grid-column:1/-1}
+
+/* history */
+.trip{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-bottom:1px dashed rgba(27,38,119,.15);font-size:.95rem}
+.muted{color:var(--navy-soft)}
+
+/* trip sheet */
+#sheet{position:fixed;inset:0;z-index:50;display:none;align-items:flex-end;justify-content:center;background:rgba(27,38,119,.25);backdrop-filter:blur(4px)}
+#sheet.open{display:flex}
+.sheet{width:min(520px,100%);background:var(--pearl);border-radius:30px 30px 0 0;padding:1.4rem;max-height:92vh;overflow:auto;animation:up .45s cubic-bezier(.2,.9,.3,1.1)}
+@media(min-width:700px){#sheet{align-items:center}.sheet{border-radius:30px}}
+@keyframes up{from{transform:translateY(60px);opacity:0}}
+.steps{display:flex;gap:4px;margin:.8rem 0}
+.steps i{flex:1;height:6px;border-radius:9px;background:rgba(27,38,119,.12)}
+.steps i.on{background:linear-gradient(90deg,var(--rose),var(--gold))}
+.driver{display:flex;align-items:center;gap:.9rem;margin:1rem 0;padding:.9rem;border-radius:20px;background:#fff}
+.avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blush),var(--gold));display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:1.4rem}
+.otp{margin-left:auto;text-align:center;font-size:.75rem}
+.otp b{display:block;font-family:var(--display);font-size:1.6rem;letter-spacing:.15em;color:var(--rose)}
+.sheet .btns{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
+.sheet .btns button{flex:1;padding:.75rem;border-radius:14px;background:rgba(27,38,119,.08);font-weight:700;min-width:110px}
+.sheet .btns .sos{background:#d93a4b;color:#fff}
+.stars button{font-size:2rem;filter:grayscale(1);opacity:.5}
+.stars button.on{filter:none;opacity:1}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:var(--navy);color:#fff;padding:.8rem 1.2rem;border-radius:99px;z-index:100;transition:transform .35s;max-width:90vw;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+
+/* ---------- INTRO (your third image, landscape) ---------- */
+#intro{position:fixed;inset:0;z-index:200;overflow:hidden;background:var(--navy);transition:opacity .9s ease,transform .9s ease,filter .9s ease}
+#intro.out{opacity:0;transform:scale(1.07);filter:blur(8px);pointer-events:none}
+.i-photo{position:absolute;inset:0;background:url('images/monaco.jpg') center 70%/cover no-repeat}
+.i-navy{position:absolute;inset:0;background:var(--navy);clip-path:circle(150% at 50% 68%);animation:iris .9s cubic-bezier(.7,0,.3,1) 2.1s forwards;overflow:hidden}
+@keyframes iris{to{clip-path:circle(0% at 50% 68%)}}
+.i-tint{position:absolute;inset:0;background:url('images/monaco.jpg') center 70%/cover;mix-blend-mode:screen;opacity:.28;animation:pulse 1s ease-in-out infinite alternate}
+@keyframes pulse{to{opacity:.5;transform:scale(1.04)}}
+.i-waves{position:absolute;inset:-20%;background:
+  repeating-linear-gradient(105deg,transparent 0 60px,rgba(255,255,255,.07) 60px 120px),
+  radial-gradient(40% 50% at 30% 40%,rgba(236,79,125,.38),transparent 70%),
+  radial-gradient(35% 45% at 75% 65%,rgba(240,201,122,.3),transparent 70%);
+  animation:waves 2.2s linear infinite}
+@keyframes waves{to{transform:translateX(-120px) skewX(-6deg)}}
+.i-car{position:absolute;left:50%;bottom:12%;width:min(48vw,560px);transform:translateX(-170vw);animation:carIn .9s cubic-bezier(.15,.8,.25,1.05) 2.7s forwards}
+.i-car img{width:100%;display:block;filter:drop-shadow(0 14px 10px rgba(27,38,119,.35));animation:bob .32s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-3px)}}
+@keyframes carIn{to{transform:translateX(-50%)}}
+#intro.go .i-car{animation:carOut .8s cubic-bezier(.6,0,1,.6) forwards}
+@keyframes carOut{from{transform:translateX(-50%)}to{transform:translateX(170vw)}}
+.i-speed{position:absolute;left:0;right:0;bottom:15%;height:90px;opacity:0;animation:speed 1s ease-out 2.7s}
+.i-speed i{position:absolute;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#fff)}
+@keyframes speed{0%{opacity:0;transform:translateX(-30%)}30%{opacity:.9}100%{opacity:0;transform:translateX(30%)}}
+.i-brand{position:absolute;left:0;right:0;top:15%;text-align:center;font-family:var(--display);font-weight:900;font-size:clamp(3.4rem,12vw,9rem);letter-spacing:-.04em;line-height:1;color:var(--navy);text-shadow:0 4px 30px rgba(255,255,255,.6)}
+.i-brand span{display:inline-block;opacity:0;transform:translateY(40px) scale(.7)}
+.i-brand .rd{animation:pop .5s cubic-bezier(.2,1.6,.4,1) 3.5s forwards}
+.i-brand .zy{animation:pop .5s cubic-bezier(.2,1.6,.4,1) 3.75s forwards,shake .5s 4.3s infinite;-webkit-text-fill-color:initial;background:none;color:var(--rose);text-shadow:0 4px 30px rgba(255,255,255,.6)}
+@keyframes pop{to{opacity:1;transform:none}}
+.i-tag{position:absolute;left:0;right:0;top:calc(15% + clamp(4rem,14vw,10.5rem));text-align:center;font-family:var(--display);font-style:italic;font-size:clamp(1rem,2.2vw,1.5rem);color:var(--navy);opacity:0;animation:pop .6s ease 4.2s forwards}
+#skip{position:absolute;right:1.2rem;top:1.2rem;padding:.5rem 1rem;border-radius:99px;background:rgba(255,255,255,.8);font-weight:700;font-size:.85rem;color:var(--navy)}
+
+body.loading main,body.loading header{opacity:0}
+main,header{transition:opacity .8s ease}
+
+@media(prefers-reduced-motion:reduce){
+  .bg,.zy,.i-waves,.i-tint,.i-car img{animation:none!important}
 }
 </style>
 </head>
-<body>
+<body class="loading">
+
+<div class="bg"></div><div class="bg-veil"></div><canvas id="sparkles"></canvas>
+
+<!-- ================= INTRO ================= -->
+<div id="intro" aria-hidden="true">
+  <div class="i-photo"></div>
+  <div class="i-navy"><div class="i-tint"></div><div class="i-waves"></div></div>
+  <div class="i-brand"><span class="rd">Ride</span><span class="zy">Zy</span></div>
+  <div class="i-tag">your ride, your vibe</div>
+  <div class="i-speed"><i style="top:10px;left:8%;width:30%"></i><i style="top:38px;left:2%;width:40%"></i><i style="top:62px;left:12%;width:26%"></i></div>
+  <div class="i-car"><img src="images/logo.png" alt=""></div>
+  <button id="skip">Skip</button>
+</div>
+
+<!-- ================= SITE ================= -->
 <header>
-  <div class="logo"><span class="logo-car">🚗</span><span>RIDE</span><span class="logo-orange">ZY</span></div>
-  <div class="nav">
-    <span onclick="window.scrollTo({top:0,behavior:'smooth'})">Home</span>
-    <span onclick="scrollToRides()">My Rides</span>
-    <span onclick="openFeedback()">Feedback</span>
-    <span class="sos-top" onclick="SOS()">SOS</span>
-  </div>
+  <a class="brand" href="#top"><img src="images/logo.png" alt="RideZy car logo"><span class="wordmark">Ride<span class="zy">Zy</span></span></a>
+  <nav><a href="#book">Book</a><a href="#forecast">Best time</a><a href="#trips">My trips</a></nav>
 </header>
 
-<section class="hero">
-  <div class="hero-text">
-    <h1>Move smart.<br><span>Ride easy.</span></h1>
-    <p>Your simple, fun and reliable ride-booking experience. Enter a location in India and find your ride.</p>
-  </div>
-  <div class="hero-car">🚗</div>
-</section>
+<main id="top">
+  <section class="hero">
+    <h1>Where to today?</h1>
+    <p>See the full fare before you book. Split it with friends, schedule it, or ride when it's cheapest.</p>
+  </section>
 
-<div class="booking-wrapper">
-  <div class="booking-card">
-    <div class="booking-title">Where are you going? 📍</div>
-    <div class="inputs">
-      <div class="input-box">
-        <label for="from">FROM</label>
-        <input id="from" type="text" placeholder="e.g. Kollam" autocomplete="off">
-        <div id="fromSuggestions" class="suggestions"></div>
+  <div class="grid" id="book">
+    <!-- LEFT: booking -->
+    <section class="panel">
+      <h2>Plan your ride</h2>
+      <div class="route-row">
+        <div>
+          <label class="f" for="from">Pickup</label><select id="from"></select>
+          <label class="f" for="to">Drop</label><select id="to"></select>
+        </div>
+        <button class="swap" id="swap" aria-label="Swap pickup and drop">⇅</button>
       </div>
-      <div class="input-box">
-        <label for="to">TO</label>
-        <input id="to" type="text" placeholder="e.g. Trivandrum Airport" autocomplete="off">
-        <div id="toSuggestions" class="suggestions"></div>
+
+      <label class="f">When</label>
+      <div class="two">
+        <div class="seg" id="when"><button class="on" data-m="now">Now</button><button data-m="later">Later</button></div>
+        <input class="in" type="time" id="time" disabled>
       </div>
-      <button class="search-btn" onclick="findRide()">Find Ride 🚗</button>
-    </div>
-    <div id="routeError" class="route-error" role="alert" aria-live="polite" hidden></div>
-  </div>
-</div>
 
-<section class="popular">
-  <h2 class="section-title">Popular destinations ✨</h2>
-  <div class="place-grid">
-    <div class="place" onclick="setDestination('Chennai')"><div class="place-icon">🌆</div><b>Chennai</b><small>Tamil Nadu</small></div>
-    <div class="place" onclick="setDestination('Bangalore')"><div class="place-icon">🌇</div><b>Bangalore</b><small>Karnataka</small></div>
-    <div class="place" onclick="setDestination('Kochi')"><div class="place-icon">🌴</div><b>Kochi</b><small>Kerala</small></div>
-    <div class="place" onclick="setDestination('Mumbai')"><div class="place-icon">🏙️</div><b>Mumbai</b><small>Maharashtra</small></div>
-  </div>
-</section>
+      <label class="f">Choose your ride</label>
+      <div class="cars" id="cars"></div>
 
-<div class="loading" id="loading" aria-live="polite">
-  <div class="spinner"></div><h3>Finding your route...</h3><p>Calculating distance, time & fares 🚗</p>
-</div>
+      <label class="f">Ride vibe</label>
+      <div class="chips" id="vibes"></div>
 
-<section class="results" id="results">
-  <div class="route-info">
-    <h2>🗺️ Your route</h2>
-    <div class="route-line" id="routeText"></div><br>
-    <div>Distance: <strong id="distance"></strong></div>
-    <div>Estimated travel time: <strong id="duration"></strong></div>
-  </div>
-  <h2>Choose your ride 🚘</h2>
-  <div class="rides">
-    <div class="ride" onclick="selectRide('RIDEZY Mini')">
-      <div class="ride-header"><div><div class="ride-name">RIDEZY Mini</div><div class="ride-details">Affordable everyday ride</div></div><div class="ride-icon">🚗</div></div>
-      <div><b id="miniTime">--</b></div><div class="price" id="miniPrice">₹--</div><button class="select-btn">Choose Mini</button>
-    </div>
-    <div class="ride" onclick="selectRide('RIDEZY Prime')">
-      <div class="ride-header"><div><div class="ride-name">RIDEZY Prime</div><div class="ride-details">Comfortable premium ride</div></div><div class="ride-icon">🚙</div></div>
-      <div><b id="primeTime">--</b></div><div class="price" id="primePrice">₹--</div><button class="select-btn">Choose Prime</button>
-    </div>
-    <div class="ride" onclick="selectRide('RIDEZY XL')">
-      <div class="ride-header"><div><div class="ride-name">RIDEZY XL</div><div class="ride-details">For groups and luggage</div></div><div class="ride-icon">🚐</div></div>
-      <div><b id="xlTime">--</b></div><div class="price" id="xlPrice">₹--</div><button class="select-btn">Choose XL</button>
-    </div>
-    <div class="ride" onclick="selectRide('RIDEZY Auto')">
-      <div class="ride-header"><div><div class="ride-name">RIDEZY Auto</div><div class="ride-details">Quick and budget friendly</div></div><div class="ride-icon">🛺</div></div>
-      <div><b id="autoTime">--</b></div><div class="price" id="autoPrice">₹--</div><button class="select-btn">Choose Auto</button>
-    </div>
-  </div>
-</section>
+      <label class="f">Riders (split the fare)</label>
+      <div class="stepper"><button id="minus" aria-label="Fewer riders">−</button><b id="riders">1</b><button id="plus" aria-label="More riders">+</button><span class="muted" id="capnote"></span></div>
+    </section>
 
-<div class="modal" id="rideModal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">×</span>
-    <h2 id="selectedRide">RIDEZY</h2>
-    <div class="fare-breakdown">
-      <div class="fare-row"><span>Base fare</span><strong id="baseFareAmount">₹--</strong></div>
-      <div class="fare-row"><span>Distance charge</span><strong id="distanceFareAmount">₹--</strong></div>
-      <div class="fare-row" id="minimumFareRow" hidden><span>Minimum fare adjustment</span><strong id="minimumFareAmount">₹0</strong></div>
-      <div class="fare-row fare-total"><span>Estimated total</span><strong id="totalFareAmount">₹--</strong></div>
-      <p class="fare-note">Estimated fare only. This demo does not create a real booking.</p>
-    </div>
-    <p style="margin-top:8px;color:#777">Your driver is on the way 🚗 <small>(simulated demo)</small></p>
-    <div class="driver">
-      <div class="driver-photo">👨🏻</div>
-      <div class="driver-info"><b>Arjun Kumar</b><span class="rating">★★★★★</span><br><small>Demo driver profile</small></div>
-    </div>
-    <div style="background:#fff4ea;padding:18px;border-radius:15px">
-      <b>🚗 Driver arrival (simulated)</b><h2 id="arrivalTime" style="margin-top:7px">4 minutes</h2>
-      <small>This demo does not track a real driver.</small>
-    </div>
-    <div class="action-buttons">
-      <button class="action chat" onclick="toggleChat()">💬 Chat with Driver</button>
-      <button class="action leave" onclick="leaveCar()">🚪 End Demo Ride</button>
-      <button class="action sos" onclick="SOS()">🆘 SOS Demo</button>
-      <button class="action feedback" onclick="openFeedback()">⭐ Feedback</button>
-    </div>
-    <div class="chat-box" id="chatBox">
-      <h3 style="margin:15px 0">Chat demo</h3>
-      <div class="messages" id="messages"><div class="message">Driver demo: Hi! I'll be there shortly. 👋</div></div>
-      <div class="chat-input"><input id="chatInput" placeholder="Type a message..." aria-label="Chat message"><button onclick="sendMessage()">Send</button></div>
-    </div>
-  </div>
-</div>
+    <!-- RIGHT: map + fare -->
+    <section class="panel alt" style="position:sticky;top:84px">
+      <div class="mapwrap">
+        <svg id="map" viewBox="0 0 400 420" aria-label="Route map"></svg>
+        <div class="pill" id="mapinfo"></div>
+      </div>
 
-<div class="modal" id="feedbackModal">
-  <div class="modal-content">
-    <span class="close" onclick="closeFeedback()">×</span>
-    <h2>How was your RIDEZY experience? 💛</h2>
-    <p style="margin-top:10px;color:#777">Your feedback helps us improve.</p>
-    <div class="stars">
-      <span class="star" onclick="rate(1)">★</span><span class="star" onclick="rate(2)">★</span><span class="star" onclick="rate(3)">★</span><span class="star" onclick="rate(4)">★</span><span class="star" onclick="rate(5)">★</span>
-    </div>
-    <textarea id="feedbackText" placeholder="Tell us what you think..." aria-label="Feedback"></textarea>
-    <button class="search-btn" style="width:100%;margin-top:15px" onclick="submitFeedback()">Submit Feedback</button>
-  </div>
-</div>
+      <div class="fare">
+        <label class="f" for="promo">Promo code</label>
+        <div class="promo"><input class="in" id="promo" placeholder="Try ZYSPARKLE"><button id="apply">Apply</button></div>
+        <div class="msg" id="promomsg"></div>
 
-<footer>
-  <div class="logo" style="justify-content:center;margin-bottom:10px"><span>🚗</span><span>RIDE</span><span style="color:#ff7a00">ZY</span></div>
-  <p>Ride smarter. Ride happier. <span>Ride RIDEZY.</span></p>
-  <p style="margin-top:15px;color:#777">© 2026 RIDEZY • Demo Ride Booking Platform</p>
-</footer>
+        <label class="f">Tip your driver</label>
+        <div class="chips" id="tips"></div>
+        <label class="toggle"><input type="checkbox" id="round"> Round up to the next ₹10 and plant a tree 🌱</label>
+
+        <div id="rows" style="margin-top:1rem"></div>
+        <div class="total"><span>Total</span><b id="total">₹0</b></div>
+        <div class="pp" id="pp"></div>
+        <button class="cta" id="book-btn">Book my ride</button>
+      </div>
+    </section>
+
+    <!-- forecast -->
+    <section class="panel fullw" id="forecast">
+      <h2>Best time to ride</h2>
+      <p class="muted" id="fcnote"></p>
+      <div class="forecast" id="fc"></div>
+      <div class="fc-axis"><span>12 am</span><span>6 am</span><span>12 pm</span><span>6 pm</span><span>11 pm</span></div>
+      <div class="legend"><span><i style="background:var(--sage)"></i>Regular</span><span><i style="background:var(--rose)"></i>Busy hours</span><span><i style="background:var(--navy-soft)"></i>Night charge</span><span>Tap a bar to schedule for that hour</span></div>
+    </section>
+
+    <!-- history -->
+    <section class="panel fullw" id="trips">
+      <h2>My trips</h2>
+      <div id="hist"></div>
+      <button class="chip" id="clear" style="margin-top:.8rem">Clear history</button>
+    </section>
+  </div>
+</main>
+
+<!-- trip sheet -->
+<div id="sheet" role="dialog" aria-modal="true"><div class="sheet" id="sheetbody"></div></div>
+<div id="toast" role="status"></div>
 
 <script>
-let currentRoute = null;
-let currentDistanceKm = 0;
-let selectedRating = 0;
-let currentFares = {};
-let routeRequestId = 0;
-
-function showRouteError(message) {
-  const box = document.getElementById("routeError");
-  box.textContent = message;
-  box.hidden = false;
-}
-function clearRouteError() {
-  const box = document.getElementById("routeError");
-  box.textContent = "";
-  box.hidden = true;
-}
-function showSuggestionsMessage(container, message) {
-  container.replaceChildren();
-  const item = document.createElement("div");
-  item.className = "suggestion";
-  item.textContent = message;
-  container.appendChild(item);
-}
-
-function setupLocationSearch(inputId, suggestionId) {
-  const input = document.getElementById(inputId);
-  const suggestions = document.getElementById(suggestionId);
-  let timer;
-
-  input.addEventListener("input", function() {
-    clearTimeout(timer);
-    delete input.dataset.lat;
-    delete input.dataset.lon;
-    const query = input.value.trim();
-    suggestions.replaceChildren();
-    clearRouteError();
-    if (query.length < 3) return;
-
-    timer = setTimeout(async () => {
-      showSuggestionsMessage(suggestions, "Searching locations...");
-      try {
-        const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&limit=5&addressdetails=1&q=" + encodeURIComponent(query);
-        const response = await fetch(url, {headers: {"Accept": "application/json"}});
-        if (!response.ok) throw new Error("LOCATION_SERVICE");
-        const data = await response.json();
-        suggestions.replaceChildren();
-
-        if (!data.length) {
-          showSuggestionsMessage(suggestions, "No matching places found. Try a more specific name.");
-          return;
-        }
-
-        data.forEach(place => {
-          const div = document.createElement("div");
-          div.className = "suggestion";
-          div.textContent = "📍 " + place.display_name;
-          div.onclick = function() {
-            input.value = place.display_name;
-            input.dataset.lat = place.lat;
-            input.dataset.lon = place.lon;
-            suggestions.replaceChildren();
-            clearRouteError();
-          };
-          suggestions.appendChild(div);
-        });
-      } catch (error) {
-        showSuggestionsMessage(suggestions, "Location search is unavailable. Check your connection and try again.");
-      }
-    }, 500);
-  });
-}
-
-setupLocationSearch("from", "fromSuggestions");
-setupLocationSearch("to", "toSuggestions");
-
-async function findRide() {
-  const requestId = ++routeRequestId;
-  const fromInput = document.getElementById("from");
-  const toInput = document.getElementById("to");
-  const from = fromInput.value.trim();
-  const to = toInput.value.trim();
-
-  clearRouteError();
-  document.getElementById("results").style.display = "none";
-  currentRoute = null;
-  currentFares = {};
-
-  if (!from || !to) {
-    showRouteError("Please enter both your pickup location and destination.");
-    return;
-  }
-  if (from.toLowerCase() === to.toLowerCase()) {
-    showRouteError("Your pickup and destination look the same. Choose two different locations.");
-    return;
-  }
-
-  document.getElementById("loading").style.display = "block";
-
-  try {
-    const fromLocation = await getCoordinates(fromInput);
-    const toLocation = await getCoordinates(toInput);
-    if (requestId !== routeRequestId) return;
-
-    const routeURL = "https://router.project-osrm.org/route/v1/driving/" +
-      encodeURIComponent(fromLocation.lon) + "," + encodeURIComponent(fromLocation.lat) + ";" +
-      encodeURIComponent(toLocation.lon) + "," + encodeURIComponent(toLocation.lat) +
-      "?overview=false";
-
-    const routeResponse = await fetch(routeURL);
-    if (!routeResponse.ok) throw new Error("ROUTE_SERVICE");
-    const routeData = await routeResponse.json();
-
-    if (routeData.code === "NoRoute" || !routeData.routes || routeData.routes.length === 0) {
-      throw new Error("NO_ROUTE");
-    }
-    if (routeData.code !== "Ok") throw new Error("ROUTE_SERVICE");
-    if (requestId !== routeRequestId) return;
-
-    const route = routeData.routes[0];
-    currentRoute = route;
-    const distanceKm = route.distance / 1000;
-    currentDistanceKm = distanceKm;
-    const durationMin = Math.max(1, Math.round(route.duration / 60));
-
-    document.getElementById("distance").textContent = distanceKm.toFixed(1) + " km";
-    document.getElementById("duration").textContent = formatDuration(durationMin);
-    document.getElementById("routeText").innerHTML =
-      "<b>" + escapeHTML(from) + "</b> → <b>" + escapeHTML(to) + "</b>";
-
-    const autoFare = Math.max(50, Math.round(35 + distanceKm * 13));
-    const miniFare = Math.max(80, Math.round(55 + distanceKm * 15));
-    const primeFare = Math.max(120, Math.round(85 + distanceKm * 20));
-    const xlFare = Math.max(150, Math.round(110 + distanceKm * 24));
-
-    currentFares = {
-      "RIDEZY Auto": {base: 35, rate: 13, minimum: 50, total: autoFare},
-      "RIDEZY Mini": {base: 55, rate: 15, minimum: 80, total: miniFare},
-      "RIDEZY Prime": {base: 85, rate: 20, minimum: 120, total: primeFare},
-      "RIDEZY XL": {base: 110, rate: 24, minimum: 150, total: xlFare}
-    };
-
-    document.getElementById("autoPrice").textContent = "₹" + autoFare;
-    document.getElementById("miniPrice").textContent = "₹" + miniFare;
-    document.getElementById("primePrice").textContent = "₹" + primeFare;
-    document.getElementById("xlPrice").textContent = "₹" + xlFare;
-
-    document.getElementById("autoTime").textContent = "3–6 min away (demo)";
-    document.getElementById("miniTime").textContent = "4–7 min away (demo)";
-    document.getElementById("primeTime").textContent = "5–8 min away (demo)";
-    document.getElementById("xlTime").textContent = "6–10 min away (demo)";
-
-    document.getElementById("results").style.display = "block";
-    document.getElementById("results").scrollIntoView({behavior: "smooth"});
-  } catch (error) {
-    console.error("RIDEZY route error:", error);
-    const messages = {
-      LOCATION_NOT_FOUND: "We couldn't find one of those locations in India. Try a more specific place name.",
-      LOCATION_SERVICE: "The location search service is temporarily unavailable. Check your internet connection and try again.",
-      ROUTE_SERVICE: "The routing service is temporarily unavailable. Please try again shortly.",
-      NO_ROUTE: "We couldn't find a driving route between these places. Try nearby or more accessible locations."
-    };
-    showRouteError(messages[error.message] || "Something went wrong while finding your route. Check your connection and try again.");
-  } finally {
-    if (requestId === routeRequestId) {
-      document.getElementById("loading").style.display = "none";
-    }
-  }
-}
-
-async function getCoordinates(input) {
-  if (input.dataset.lat && input.dataset.lon) {
-    return {lat: input.dataset.lat, lon: input.dataset.lon};
-  }
-
-  const query = input.value.trim();
-  if (!query) throw new Error("LOCATION_NOT_FOUND");
-
-  let response;
-  try {
-    const url = "https://nominatim.openstreetmap.org/search?format=json&countrycodes=in&limit=1&q=" + encodeURIComponent(query);
-    response = await fetch(url, {headers: {"Accept": "application/json"}});
-  } catch (error) {
-    throw new Error("LOCATION_SERVICE");
-  }
-
-  if (!response.ok) throw new Error("LOCATION_SERVICE");
-
-  let data;
-  try {
-    data = await response.json();
-  } catch (error) {
-    throw new Error("LOCATION_SERVICE");
-  }
-
-  if (!Array.isArray(data) || data.length === 0) throw new Error("LOCATION_NOT_FOUND");
-  input.dataset.lat = data[0].lat;
-  input.dataset.lon = data[0].lon;
-  return {lat: data[0].lat, lon: data[0].lon};
-}
-
-function formatDuration(minutes) {
-  if (minutes < 60) return minutes + " min";
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return mins === 0 ? hours + " hr" : hours + " hr " + mins + " min";
-}
-</script>
-
-<script>
-function selectRide(name) {
-  const fare = currentFares[name];
-  if (!fare) {
-    showRouteError("Please find a route before choosing a ride.");
-    return;
-  }
-
-  document.getElementById("selectedRide").textContent = name + " 🚗";
-
-  const rawDistanceCharge = Math.round(currentDistanceKm * fare.rate);
-  const total = fare.total;
-  const distanceCharge = Math.min(rawDistanceCharge, total);
-  const baseComponent = Math.min(fare.base, total - distanceCharge);
-  const minimumAdjustment = Math.max(0, total - baseComponent - distanceCharge);
-
-  document.getElementById("baseFareAmount").textContent = "₹" + baseComponent;
-  document.getElementById("distanceFareAmount").textContent = "₹" + distanceCharge;
-  document.getElementById("minimumFareAmount").textContent = "₹" + minimumAdjustment;
-  document.getElementById("minimumFareRow").hidden = minimumAdjustment === 0;
-  document.getElementById("totalFareAmount").textContent = "₹" + total;
-
-  document.getElementById("arrivalTime").textContent =
-    (Math.floor(Math.random() * 5) + 3) + " minutes";
-  document.getElementById("rideModal").style.display = "flex";
-}
-
-function closeModal() {
-  document.getElementById("rideModal").style.display = "none";
-}
-
-function toggleChat() {
-  const box = document.getElementById("chatBox");
-  box.style.display = box.style.display === "block" ? "none" : "block";
-}
-
-function sendMessage() {
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
-  if (!text) return;
-
-  const messages = document.getElementById("messages");
-  const message = document.createElement("div");
-  message.className = "message";
-  message.textContent = "You: " + text;
-  messages.appendChild(message);
-  input.value = "";
-  messages.scrollTop = messages.scrollHeight;
-
-  setTimeout(() => {
-    const reply = document.createElement("div");
-    reply.className = "message";
-    reply.textContent = "Driver demo: Got it 👍";
-    messages.appendChild(reply);
-    messages.scrollTop = messages.scrollHeight;
-  }, 800);
-}
-
-function leaveCar() {
-  if (confirm("End this demo ride?")) {
-    alert("Demo ride ended. Thank you for trying RIDEZY! 🚗");
-    closeModal();
-  }
-}
-
-function SOS() {
-  alert("🆘 RIDEZY SOS DEMO\n\nThis button does not contact emergency services. If you are in danger, call your local emergency number directly.");
-}
-
-function openFeedback() {
-  document.getElementById("feedbackModal").style.display = "flex";
-}
-function closeFeedback() {
-  document.getElementById("feedbackModal").style.display = "none";
-}
-function rate(number) {
-  selectedRating = number;
-  document.querySelectorAll(".star").forEach((star, index) => {
-    star.classList.toggle("active", index < number);
-  });
-}
-function submitFeedback() {
-  if (selectedRating === 0) {
-    alert("Please select a rating ⭐");
-    return;
-  }
-
-  alert("Thank you for your feedback! 💛\n\nYou rated RIDEZY " +
-    selectedRating + "/5.\n\nThis demo does not save feedback to a server.");
-
-  document.getElementById("feedbackText").value = "";
-  selectedRating = 0;
-  document.querySelectorAll(".star").forEach(star => star.classList.remove("active"));
-  closeFeedback();
-}
-
-function setDestination(place) {
-  const input = document.getElementById("to");
-  input.value = place;
-  delete input.dataset.lat;
-  delete input.dataset.lon;
-  clearRouteError();
-  input.focus();
-}
-
-function scrollToRides() {
-  document.getElementById("results").scrollIntoView({behavior: "smooth"});
-}
-
-function escapeHTML(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-window.onclick = function(event) {
-  const rideModal = document.getElementById("rideModal");
-  const feedbackModal = document.getElementById("feedbackModal");
-  if (event.target === rideModal) closeModal();
-  if (event.target === feedbackModal) closeFeedback();
+/* ================= DATA ================= */
+const PLACES=[
+ {n:'Singaperumal Koil',lat:12.752,lng:80.000},
+ {n:'Chengalpattu',lat:12.682,lng:79.989},
+ {n:'Tambaram',lat:12.925,lng:80.100},
+ {n:'Chennai Airport',lat:12.994,lng:80.171},
+ {n:'Guindy',lat:13.007,lng:80.221},
+ {n:'Velachery',lat:12.982,lng:80.218},
+ {n:'Sholinganallur',lat:12.901,lng:80.228},
+ {n:'T Nagar',lat:13.042,lng:80.234},
+ {n:'Chennai Central',lat:13.083,lng:80.271},
+ {n:'Marina Beach',lat:13.050,lng:80.282},
+ {n:'Mahabalipuram',lat:12.621,lng:80.193}
+];
+const RIDES={
+ bike :{name:'Zy Bike', ico:'🏍️',cap:1,base:20, km:7,  min:1,   note:'Fastest through traffic'},
+ auto :{name:'Zy Auto', ico:'🛺',cap:3,base:30, km:12, min:1.2, note:'Classic and cheap'},
+ mini :{name:'Zy Mini', ico:'🚗',cap:4,base:50, km:14, min:1.5, note:'Everyday hatchback'},
+ sedan:{name:'Zy Sedan',ico:'🚘',cap:4,base:70, km:18, min:2,   note:'Extra legroom, AC'},
+ suv  :{name:'Zy XL',   ico:'🚙',cap:6,base:100,km:24, min:2.5, note:'Family and luggage'},
+ luxe :{name:'Zy Luxe', ico:'IMG',cap:2,base:250,km:60, min:5,   note:'The Corvette. Make an entrance'}
 };
+const VIBES=[['🌊','Chill'],['☀️','Chatty'],['🎧','Focus'],['🤫','Silent']];
+const TIPS=[0,10,20,30];
+const PROMOS={
+ ZYSPARKLE:{t:'pct',v:.15,max:150,txt:'15% off (max ₹150)'},
+ FIRSTZY:{t:'pct',v:.20,max:100,txt:'20% off your first ride (max ₹100)'},
+ CHENNAI50:{t:'flat',v:50,txt:'₹50 off'}
+};
+const DRIVERS=['Karthik','Meena','Arjun','Priya','Senthil','Divya','Ravi','Lakshmi'];
+const BOOKING_FEE=12, GST=.05;
 
-document.getElementById("from").addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("to").focus();
+const S={from:0,to:3,type:'mini',riders:1,vibe:'Chill',mode:'now',time:'',promo:null,tip:0,round:false};
+const $=s=>document.querySelector(s);
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+
+/* ================= MATHS ================= */
+function haversine(a,b){
+  const R=6371,r=x=>x*Math.PI/180;
+  const dLat=r(b.lat-a.lat),dLng=r(b.lng-a.lng);
+  const h=Math.sin(dLat/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+const dist=()=>haversine(PLACES[S.from],PLACES[S.to])*1.35;           // road distance estimate
+const mins=d=>Math.max(6,Math.round(d/28*60));                        // ~28 km/h city average
+function surge(h){
+  if(h>=23||h<5) return {m:1.25,k:'night',label:'Night charge'};
+  if((h>=8&&h<10)||(h>=17&&h<21)) return {m:1.3,k:'busy',label:'Busy hours'};
+  return {m:1,k:'reg',label:'Regular'};
+}
+function hourNow(){
+  if(S.mode==='later'&&S.time){const [h,m]=S.time.split(':').map(Number);return h+m/60}
+  const d=new Date();return d.getHours()+d.getMinutes()/60;
+}
+function core(type,d,hour){
+  const r=RIDES[type],t=mins(d),sg=surge(Math.floor(hour));
+  const sub=r.base+r.km*d+r.min*t;
+  return {sub,t,sg,surgeAmt:sub*(sg.m-1),fare:sub*sg.m};
+}
+function calc(){
+  const d=dist(),c=core(S.type,d,hourNow());
+  let disc=0;
+  if(S.promo){const p=PROMOS[S.promo];disc=p.t==='pct'?Math.min(c.fare*p.v,p.max):Math.min(p.v,c.fare)}
+  const gst=(c.fare-disc)*GST;
+  let total=c.fare-disc+BOOKING_FEE+gst+S.tip;
+  let tree=0;
+  if(S.round){tree=Math.ceil(total/10)*10-total;total+=tree}
+  return {d,...c,disc,gst,tip:S.tip,tree,total,pp:total/S.riders};
+}
+
+/* ================= UI BUILD ================= */
+function fillSelects(){
+  ['from','to'].forEach(id=>{
+    $('#'+id).innerHTML=PLACES.map((p,i)=>`<option value="${i}">${p.n}</option>`).join('');
+    $('#'+id).value=S[id];
+  });
+}
+function buildVibes(){
+  $('#vibes').innerHTML=VIBES.map(v=>`<button class="chip ${S.vibe===v[1]?'on':''}" data-v="${v[1]}">${v[0]} ${v[1]}</button>`).join('');
+}
+function buildTips(){
+  $('#tips').innerHTML=TIPS.map(t=>`<button class="chip ${S.tip===t?'on':''}" data-t="${t}">${t?('₹'+t):'No tip'}</button>`).join('');
+}
+function buildCars(){
+  const d=dist(),h=hourNow();
+  $('#cars').innerHTML=Object.entries(RIDES).map(([k,r])=>{
+    const c=core(k,d,h);
+    const ico=r.ico==='IMG'?'<img src="images/logo.png" alt="">':r.ico;
+    return `<button class="car ${S.type===k?'on':''}" data-k="${k}"><span class="ico">${ico}</span><span><b>${r.name}</b><small>${r.note} · ${r.cap} seat${r.cap>1?'s':''}</small></span><span class="pr">${inr(c.fare)}</span></button>`;
+  }).join('');
+}
+
+/* ================= MAP ================= */
+const MX=l=>(l-79.90)/0.45*400, MY=a=>(13.15-a)/0.60*420;
+let routePath,carG,carX=0;
+function buildMap(){
+  const dots=PLACES.map((p,i)=>`<circle cx="${MX(p.lng)}" cy="${MY(p.lat)}" r="3" fill="#1b2677" opacity=".35"/><text x="${MX(p.lng)+6}" y="${MY(p.lat)+3}" font-size="8.5" fill="#1b2677" opacity=".55">${p.n}</text>`).join('');
+  $('#map').innerHTML=`
+   <defs>
+     <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6c1c8"/><stop offset=".5" stop-color="#c9d9e6"/><stop offset="1" stop-color="#b6d0d6"/></linearGradient>
+     <linearGradient id="land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4efe2"/><stop offset="1" stop-color="#dfe6cc"/></linearGradient>
+   </defs>
+   <rect width="400" height="420" fill="url(#land)"/>
+   <g stroke="#fff" stroke-width="5" fill="none" opacity=".9" stroke-linecap="round">
+     <path d="M0 330 Q120 300 190 250 T330 60"/><path d="M90 420 Q150 300 250 230 T380 140"/><path d="M0 120 Q150 160 300 100"/>
+   </g>
+   <path d="M347 0 L343 70 L322 175 L312 245 L275 330 L262 371 L255 420 L400 420 L400 0Z" fill="url(#sea)"/>
+   <path d="M347 0 L343 70 L322 175 L312 245 L275 330 L262 371 L255 420" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>
+   <text x="345" y="300" font-size="11" font-style="italic" fill="#1b2677" opacity=".4">Bay of Bengal</text>
+   ${dots}
+   <path id="route" fill="none" stroke="#ec4f7d" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 0"/>
+   <path id="routeGlow" fill="none" stroke="#f0c97a" stroke-width="10" stroke-linecap="round" opacity=".45"/>
+   <g id="pins"></g>
+   <g id="carG"><image id="carImg" href="images/logo.png" width="46" height="13" x="-23" y="-9"/></g>`;
+  routePath=$('#route');carG=$('#carG');
+}
+let A,B,len=0;
+function updateMap(){
+  A=PLACES[S.from];B=PLACES[S.to];
+  const ax=MX(A.lng),ay=MY(A.lat),bx=MX(B.lng),by=MY(B.lat);
+  const mx=(ax+bx)/2,my=(ay+by)/2,dx=bx-ax,dy=by-ay,l=Math.hypot(dx,dy)||1;
+  const cx=mx-dy/l*l*.2,cy=my+dx/l*l*.2;
+  const d=`M${ax} ${ay} Q${cx} ${cy} ${bx} ${by}`;
+  routePath.setAttribute('d',d);$('#routeGlow').setAttribute('d',d);
+  len=routePath.getTotalLength();
+  routePath.style.transition='none';routePath.style.strokeDasharray=len;routePath.style.strokeDashoffset=len;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{routePath.style.transition='stroke-dashoffset 1s ease';routePath.style.strokeDashoffset=0}));
+  $('#pins').innerHTML=pin(ax,ay,'A','#1b2677')+pin(bx,by,'B','#ec4f7d');
+  placeCar(0);
+}
+const pin=(x,y,t,c)=>`<g transform="translate(${x},${y})"><circle r="11" fill="${c}" stroke="#fff" stroke-width="3"/><text y="4" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${t}</text></g>`;
+function placeCar(f){                 // f = 0..1 along the route
+  const p=routePath.getPointAtLength(len*f),q=routePath.getPointAtLength(Math.min(len,len*f+2));
+  setCar(p.x,p.y-12,q.x>=p.x-.01);
+}
+function setCar(x,y,right){
+  carG.setAttribute('transform',`translate(${x},${y}) scale(${right?1:-1},1)`);
+}
+
+/* ================= RENDER FARE ================= */
+let shown=0;
+function render(){
+  const c=calc();
+  $('#mapinfo').textContent=`${c.d.toFixed(1)} km · about ${c.t} min · ${c.sg.label}`;
+  const rows=[
+    ['Base + distance + time',inr(c.sub)],
+    c.surgeAmt>0?[c.sg.label+' (×'+c.sg.m+')',inr(c.surgeAmt)]:null,
+    c.disc>0?['Promo '+S.promo,'−'+inr(c.disc)]:null,
+    ['Booking fee',inr(BOOKING_FEE)],
+    ['GST (5%)',inr(c.gst)],
+    c.tip>0?['Driver tip',inr(c.tip)]:null,
+    c.tree>0?['Tree planting',inr(c.tree)]:null
+  ].filter(Boolean);
+  $('#rows').innerHTML=rows.map(r=>`<div class="row ${r[1][0]==='−'?'neg':''}"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('');
+  tween(shown,c.total);shown=c.total;
+  $('#pp').textContent=S.riders>1?`${inr(c.pp)} each for ${S.riders} riders`:'';
+  $('#riders').textContent=S.riders;
+  $('#capnote').textContent=`${RIDES[S.type].name} fits ${RIDES[S.type].cap}`;
+  buildCars();buildForecast();
+}
+let tw;
+function tween(a,b){cancelAnimationFrame(tw);const t0=performance.now();
+  (function s(t){const k=Math.min(1,(t-t0)/450);$('#total').textContent=inr(a+(b-a)*(1-Math.pow(1-k,3)));if(k<1)tw=requestAnimationFrame(s)})(t0)}
+
+/* ================= FORECAST ================= */
+function buildForecast(){
+  const d=dist(),vals=[];
+  for(let h=0;h<24;h++)vals.push({h,c:core(S.type,d,h)});
+  const max=Math.max(...vals.map(v=>v.c.fare)),min=Math.min(...vals.map(v=>v.c.fare));
+  const cur=Math.floor(hourNow()),colors={reg:'var(--sage)',busy:'var(--rose)',night:'var(--navy-soft)'};
+  $('#fc').innerHTML=vals.map(v=>`<button class="${v.h===cur?'now':''}" data-h="${v.h}" style="height:${30+70*(v.c.fare/max)}%;background:${colors[v.c.sg.k]}" title="${v.h}:00 · ${inr(v.c.fare)}" aria-label="${v.h}:00, ${inr(v.c.fare)}"></button>`).join('');
+  const now=core(S.type,d,cur).fare,save=now-min;
+  $('#fcnote').textContent=save>1?`Riding outside busy and night hours saves up to ${inr(save)} on this trip (${RIDES[S.type].name}).`:`This is already the lowest fare for this trip.`;
+}
+
+/* ================= EVENTS ================= */
+function wire(){
+  $('#from').onchange=e=>{S.from=+e.target.value;if(S.from===S.to)S.to=(S.to+1)%PLACES.length,$('#to').value=S.to;updateMap();render()};
+  $('#to').onchange=e=>{S.to=+e.target.value;if(S.from===S.to)S.from=(S.from+1)%PLACES.length,$('#from').value=S.from;updateMap();render()};
+  $('#swap').onclick=()=>{[S.from,S.to]=[S.to,S.from];$('#from').value=S.from;$('#to').value=S.to;updateMap();render()};
+  $('#when').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m;
+    [...$('#when').children].forEach(x=>x.classList.toggle('on',x===b));
+    $('#time').disabled=S.mode==='now';
+    if(S.mode==='later'&&!S.time){const d=new Date(Date.now()+36e5);S.time=String(d.getHours()).padStart(2,'0')+':00';$('#time').value=S.time}
+    render()};
+  $('#time').onchange=e=>{S.time=e.target.value;render()};
+  $('#cars').onclick=e=>{const b=e.target.closest('.car');if(!b)return;S.type=b.dataset.k;S.riders=Math.min(S.riders,RIDES[S.type].cap);render()};
+  $('#vibes').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.vibe=b.dataset.v;buildVibes()};
+  $('#tips').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.tip=+b.dataset.t;buildTips();render()};
+  $('#round').onchange=e=>{S.round=e.target.checked;render()};
+  $('#minus').onclick=()=>{S.riders=Math.max(1,S.riders-1);render()};
+  $('#plus').onclick=()=>{if(S.riders<RIDES[S.type].cap)S.riders++;else toast(`${RIDES[S.type].name} fits ${RIDES[S.type].cap}. Pick a bigger ride for more people.`);render()};
+  $('#apply').onclick=()=>{
+    const code=$('#promo').value.trim().toUpperCase(),m=$('#promomsg');
+    if(!code){S.promo=null;m.textContent='';render();return}
+    if(PROMOS[code]){S.promo=code;m.style.color='#3e7a2c';m.textContent='Applied: '+PROMOS[code].txt}
+    else{S.promo=null;m.style.color='#c4314b';m.textContent='That code isn\'t valid. Try ZYSPARKLE, FIRSTZY or CHENNAI50.'}
+    render()};
+  $('#fc').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+    S.mode='later';S.time=String(b.dataset.h).padStart(2,'0')+':00';$('#time').value=S.time;$('#time').disabled=false;
+    [...$('#when').children].forEach(x=>x.classList.toggle('on',x.dataset.m==='later'));
+    render();toast('Scheduled for '+S.time)};
+  $('#book-btn').onclick=startTrip;
+  $('#clear').onclick=()=>{try{localStorage.removeItem('ridezy_trips')}catch(e){}renderHist()};
+}
+
+/* ================= TRIP FLOW ================= */
+let cancelled=false;
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),3000)}
+function tweenRun(ms,fn,done){const t0=performance.now();
+  (function s(t){if(cancelled)return;const k=Math.min(1,(t-t0)/ms);fn(k);k<1?requestAnimationFrame(s):done&&done()})(t0)}
+function startTrip(){
+  cancelled=false;
+  const c=calc(),drv=DRIVERS[Math.floor(Math.random()*DRIVERS.length)];
+  const otp=String(1000+Math.floor(Math.random()*9000));
+  const plate='TN 19 '+String.fromCharCode(65+Math.random()*26|0)+String.fromCharCode(65+Math.random()*26|0)+' '+(1000+Math.floor(Math.random()*9000));
+  const stages=['Finding driver','Driver on the way','Driver arrived','On trip','Arrived'];
+  const body=$('#sheetbody');
+  body.innerHTML=`
+    <h2 id="st">Finding a driver…</h2>
+    <div class="steps">${stages.map(()=>'<i></i>').join('')}</div>
+    <p class="muted" id="eta"></p>
+    <div class="driver" id="drv" hidden>
+      <div class="avatar">${drv[0]}</div>
+      <div><b>${drv}</b> · ★ 4.${7+Math.floor(Math.random()*3)}<br><small class="muted">${RIDES[S.type].name} · ${plate}</small></div>
+      <div class="otp">Share OTP<b>${otp}</b></div>
+    </div>
+    <p class="muted">${PLACES[S.from].n} → ${PLACES[S.to].n} · ${inr(c.total)}${S.riders>1?' ('+inr(c.pp)+' each)':''} · vibe: ${S.vibe}</p>
+    <div class="btns" id="btns"><button id="share">Share trip</button><button class="sos" id="sos">SOS</button><button id="cancel">Cancel</button></div>`;
+  $('#sheet').classList.add('open');
+  const steps=[...body.querySelectorAll('.steps i')];
+  const setStage=i=>{steps.forEach((s,j)=>s.classList.toggle('on',j<=i));$('#st').textContent=stages[i]};
+  setStage(0);
+  $('#share').onclick=()=>{const txt=`I'm riding with RideZy: ${PLACES[S.from].n} to ${PLACES[S.to].n}. Driver ${drv}, ${plate}.`;
+    navigator.clipboard?navigator.clipboard.writeText(txt).then(()=>toast('Trip details copied. Paste them to a friend.')).catch(()=>toast(txt)):toast(txt)};
+  $('#sos').onclick=()=>toast('Demo: live location would now go to your emergency contacts.');
+  $('#cancel').onclick=closeSheet;
+  const a=PLACES[S.from],ax=MX(a.lng),ay=MY(a.lat);
+  setCar(ax-60,ay+40,true);
+  setTimeout(()=>{if(cancelled)return;
+    setStage(1);$('#drv').hidden=false;const eta=3+Math.floor(Math.random()*4);
+    tweenRun(5500,k=>{setCar(ax-60+60*k,ay+40-52*k,true);$('#eta').textContent=`Arriving in ${Math.max(1,Math.ceil(eta*(1-k)))} min`},()=>{
+      setStage(2);$('#eta').textContent='Your driver is at the pickup. Share the OTP.';
+      setTimeout(()=>{if(cancelled)return;setStage(3);
+        tweenRun(11000,k=>{placeCar(k);$('#eta').textContent=`${Math.max(1,Math.ceil(c.t*(1-k)))} min to go`},finish)},1600)});
+  },2000);
+  function finish(){
+    setStage(4);$('#eta').textContent='';
+    $('#btns').outerHTML=`<p style="margin:.8rem 0 .3rem"><b>How was ${drv}?</b></p><div class="stars" id="stars">${[1,2,3,4,5].map(n=>`<button data-n="${n}" aria-label="${n} stars">⭐</button>`).join('')}</div><div class="btns"><button id="done">Done</button></div>`;
+    $('#stars').onclick=e=>{const b=e.target.closest('button');if(!b)return;[...$('#stars').children].forEach((x,i)=>x.classList.toggle('on',i<+b.dataset.n))};
+    $('#done').onclick=()=>{saveTrip({from:a.n,to:PLACES[S.to].n,type:RIDES[S.type].name,total:c.total,date:new Date().toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})});closeSheet();toast('Trip saved. Thanks for riding!')};
   }
-});
-document.getElementById("to").addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    findRide();
-  }
-});
+}
+function closeSheet(){cancelled=true;$('#sheet').classList.remove('open');placeCar(0)}
+function saveTrip(t){try{const l=JSON.parse(localStorage.getItem('ridezy_trips')||'[]');l.unshift(t);localStorage.setItem('ridezy_trips',JSON.stringify(l.slice(0,20)))}catch(e){}renderHist()}
+function renderHist(){
+  let l=[];try{l=JSON.parse(localStorage.getItem('ridezy_trips')||'[]')}catch(e){}
+  $('#hist').innerHTML=l.length?l.map(t=>`<div class="trip"><span><b>${t.from} → ${t.to}</b><br><small class="muted">${t.type} · ${t.date}</small></span><b>${inr(t.total)}</b></div>`).join(''):'<p class="muted">No trips yet. Your finished rides will show up here.</p>';
+  $('#clear').style.display=l.length?'':'none';
+}
+
+/* ================= SPARKLES (the glitter on the water) ================= */
+(function(){
+  const c=$('#sparkles'),x=c.getContext('2d');let W,H,list=[];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight;list=Array.from({length:Math.round(W*H/16000)},()=>({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.6,p:Math.random()*6.28,s:.6+Math.random()*1.4,g:Math.random()>.35}))}
+  function star(px,py,r,a,col){x.save();x.translate(px,py);x.globalAlpha=a;x.fillStyle=col;x.beginPath();
+    for(let i=0;i<8;i++){const rr=i%2?r*.25:r*2.2,an=i*Math.PI/4;x.lineTo(Math.cos(an)*rr,Math.sin(an)*rr)}x.fill();x.restore()}
+  function draw(t){x.clearRect(0,0,W,H);
+    list.forEach(s=>{const a=Math.max(0,Math.sin(t/1000*s.s+s.p));star(s.x,s.y,s.r,a*.85,s.g?'#fff3c4':'#ffffff')});
+    if(!reduce)requestAnimationFrame(draw)}
+  addEventListener('resize',size);size();requestAnimationFrame(draw);
+})();
+
+/* ================= INTRO CONTROL ================= */
+(function(){
+  const intro=$('#intro'),reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ended=false;
+  function end(){if(ended)return;ended=true;intro.classList.add('out');document.body.classList.remove('loading');setTimeout(()=>intro.remove(),1000)}
+  setTimeout(()=>intro.classList.add('go'),5300);    // car drives away
+  setTimeout(end,6000);                              // website opens
+  $('#skip').onclick=end;
+  if(reduce)end();
+})();
+
+/* ================= INIT ================= */
+fillSelects();buildVibes();buildTips();buildMap();updateMap();wire();render();renderHist();
 </script>
 </body>
 </html>
